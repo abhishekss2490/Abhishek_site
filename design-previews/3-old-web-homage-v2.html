@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abhishek S — Old-Web, Clean (v2)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#211E16; --paper:#ECE8DD; --panel:#F7F4EC; --dim:#847E70;
+    --line:#D3CCBB; --line2:#C0B8A5; --shadow:#D8D1BF;
+    --accent:#2C4E86; --accent2:#98492D;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{ font-family:'Inter',system-ui,sans-serif; background:var(--paper); color:var(--ink);
+        line-height:1.6; font-size:15.5px; -webkit-font-smoothing:antialiased; }
+  a{ color:var(--accent); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  .mono{ font-family:'IBM Plex Mono',monospace; }
+  ::selection{ background:var(--ink); color:var(--paper); }
+  .wrap{ max-width:720px; margin:0 auto; padding:0 5vw; }
+
+  /* ---- window chrome (used ONCE, for the whole page) ---- */
+  .window{ margin:2.4rem auto 0; }
+  .titlebar{ background:var(--ink); color:var(--paper); display:flex; align-items:center; justify-content:space-between;
+             padding:.6rem .9rem; border:1.5px solid var(--ink); border-bottom:none; }
+  .titlebar .logo{ font-family:'Silkscreen',monospace; font-size:.82rem; letter-spacing:.04em; }
+  .titlebar .logo b{ color:#E7C15A; }
+  .dots{ display:flex; gap:.4rem; }
+  .dots i{ width:10px; height:10px; border-radius:50%; display:block; }
+  .dots i:nth-child(1){ background:#C9584B; } .dots i:nth-child(2){ background:#D6A44C; } .dots i:nth-child(3){ background:#6E9A63; }
+  .menubar{ background:var(--panel); border:1.5px solid var(--ink); border-top:none;
+            display:flex; flex-wrap:wrap; font-family:'IBM Plex Mono',monospace; font-size:.8rem; }
+  .menubar a{ padding:.5rem .95rem; color:var(--ink); border-right:1px solid var(--line); }
+  .menubar a:hover{ background:var(--ink); color:var(--paper); text-decoration:none; }
+  .menubar a.cv{ margin-left:auto; border-right:none; border-left:1px solid var(--line); color:var(--accent); }
+
+  /* ---- intro ---- */
+  .intro{ display:grid; grid-template-columns:auto 1fr; gap:2rem; align-items:start;
+          padding:3rem 0 2.6rem; }
+  .photo{ width:158px; }
+  .photo .frame{ border:1.5px solid var(--ink); background:var(--panel); box-shadow:3px 3px 0 var(--shadow); }
+  .photo .cap{ background:var(--ink); color:var(--paper); font-family:'IBM Plex Mono',monospace;
+               font-size:.62rem; letter-spacing:.12em; padding:.28rem .5rem; display:flex; justify-content:space-between; }
+  .photo .img{ aspect-ratio:1/1.08; display:flex; align-items:flex-end; justify-content:center; overflow:hidden;
+               background:linear-gradient(180deg,#E4DFD2,#D7D0BF); }
+  .photo svg{ width:76%; height:auto; opacity:.5; }
+  .photo .note{ font-family:'IBM Plex Mono',monospace; font-size:.6rem; color:var(--dim); text-align:center;
+                margin-top:.5rem; letter-spacing:.05em; }
+
+  h1{ font-family:'Silkscreen',monospace; font-size:clamp(1.5rem,4.5vw,2rem); line-height:1.15; letter-spacing:.01em; }
+  .tagline{ font-family:'IBM Plex Mono',monospace; font-size:.82rem; color:var(--accent2); letter-spacing:.02em;
+            margin:.7rem 0 1.1rem; }
+  .bio{ max-width:48ch; color:#3a372d; }
+  .bio b{ font-weight:600; }
+  .links{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.2rem; }
+  .chip{ font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.04em; color:var(--ink);
+         border:1.4px solid var(--ink); background:var(--panel); box-shadow:2px 2px 0 var(--shadow);
+         padding:.3rem .7rem; }
+  .chip:hover{ background:var(--ink); color:var(--paper); text-decoration:none; box-shadow:2px 2px 0 var(--line2); }
+  .blink{ color:var(--accent2); animation:b 1.15s steps(1) infinite; }
+  @keyframes b{ 50%{ opacity:0; } }
+
+  /* ---- section header: a small tab, content stays open (no double boxes) ---- */
+  section{ padding:2.2rem 0; border-top:1px solid var(--line); }
+  .sec-tab{ display:inline-flex; align-items:center; gap:.5rem; background:var(--ink); color:var(--paper);
+            font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.16em; text-transform:uppercase;
+            padding:.3rem .7rem; margin-bottom:1.6rem; }
+  .sec-tab .sq{ width:7px; height:7px; background:#E7C15A; display:block; }
+
+  p.lead{ max-width:56ch; color:#3a372d; margin-bottom:.9rem; }
+
+  /* news */
+  .news li{ list-style:none; display:grid; grid-template-columns:6.5rem 1fr; gap:1rem; padding:.5rem 0;
+            border-bottom:1px dotted var(--line); }
+  .news li:last-child{ border:none; }
+  .news .date{ font-family:'IBM Plex Mono',monospace; font-size:.78rem; color:var(--accent); }
+
+  /* research themes */
+  .themes{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1rem; }
+  .themes span{ font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--dim);
+                border:1px solid var(--line2); padding:.25rem .6rem; }
+
+  /* publications */
+  .pub{ padding:1.1rem 0; border-bottom:1px dotted var(--line); display:grid; grid-template-columns:auto 1fr; gap:1rem; }
+  .pub:last-child{ border:none; }
+  .pub .venue-badge{ font-family:'IBM Plex Mono',monospace; font-size:.6rem; letter-spacing:.08em; text-transform:uppercase;
+                     color:var(--paper); background:var(--accent2); padding:.2rem .45rem; height:fit-content; white-space:nowrap; }
+  .pub .venue-badge.wip{ background:var(--dim); }
+  .pub .t{ font-weight:600; font-size:1.02rem; line-height:1.3; }
+  .pub .authors{ color:var(--dim); font-size:.9rem; margin:.2rem 0; }
+  .pub .authors .me{ color:var(--ink); font-weight:600; }
+  .pub .where{ font-style:italic; color:#57534733; color:var(--dim); font-size:.88rem; }
+  .pub .btns{ display:flex; gap:.4rem; margin-top:.55rem; }
+  .btn{ font-family:'IBM Plex Mono',monospace; font-size:.66rem; letter-spacing:.05em; text-transform:uppercase;
+        border:1.3px solid var(--line2); background:var(--panel); color:var(--ink); padding:.2rem .5rem; }
+  .btn:hover{ border-color:var(--ink); background:var(--ink); color:var(--paper); text-decoration:none; }
+
+  /* projects */
+  .proj{ display:grid; grid-template-columns:1fr auto; gap:1rem; align-items:baseline; padding:.9rem 0;
+         border-bottom:1px dotted var(--line); }
+  .proj:last-child{ border:none; }
+  .proj .nm{ font-weight:600; }
+  .proj .nm small{ display:block; font-weight:400; color:var(--dim); font-size:.9rem; margin-top:.15rem; max-width:46ch; }
+  .proj .side{ text-align:right; }
+
+  /* experience / education tables */
+  .rowset{ width:100%; }
+  .rowset .r{ display:grid; grid-template-columns:6rem 1fr; gap:1rem; padding:.7rem 0; border-bottom:1px dotted var(--line); }
+  .rowset .r:last-child{ border:none; }
+  .rowset .yr{ font-family:'IBM Plex Mono',monospace; font-size:.8rem; color:var(--accent); }
+  .rowset .role{ font-weight:600; }
+  .rowset .role small{ display:block; font-weight:400; color:var(--dim); font-size:.9rem; }
+
+  /* footer */
+  footer{ border-top:1.5px solid var(--ink); margin-top:2.4rem; padding:1.4rem 0 3rem;
+          display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.8rem;
+          font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--dim); }
+  .counter{ background:var(--ink); color:#6E9A63; padding:.15rem .55rem; letter-spacing:.18em; font-size:.66rem; }
+
+  @media(max-width:560px){
+    .intro{ grid-template-columns:1fr; }
+    .photo{ width:140px; }
+    .news li{ grid-template-columns:1fr; gap:.15rem; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap window" id="top">
+    <!-- window chrome: appears once, framing the whole site -->
+    <div class="titlebar">
+      <span class="logo">ABHISHEK<b>.</b>S</span>
+      <span class="dots"><i></i><i></i><i></i></span>
+    </div>
+    <div class="menubar">
+      <a href="#research">research</a>
+      <a href="#publications">publications</a>
+      <a href="#projects">projects</a>
+      <a href="#experience">experience</a>
+      <a class="cv" href="#">cv.pdf ↗</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <!-- INTRO -->
+    <div class="intro">
+      <div class="photo">
+        <div class="frame">
+          <div class="cap"><span>headshot.jpg</span><span>◱</span></div>
+          <div class="img">
+            <svg viewBox="0 0 100 108" xmlns="http://www.w3.org/2000/svg" aria-label="photo placeholder">
+              <circle cx="50" cy="38" r="22" fill="#2b2820"/>
+              <path d="M12 108 C12 74 30 64 50 64 C70 64 88 74 88 108 Z" fill="#2b2820"/>
+            </svg>
+          </div>
+        </div>
+        <div class="note">head-and-shoulders · swap in real photo</div>
+      </div>
+
+      <div>
+        <h1>Abhishek S</h1>
+        <div class="tagline mono">control · robotics · reinforcement learning<span class="blink">_</span></div>
+        <p class="bio">I build <b>closed-loop systems for physical robot fleets</b> — event-triggered controllers, multi-robot coordination, and the control theory that keeps them provably safe. Currently a Control &amp; Robotics Intern at <b>RBCCPS, IISc Bengaluru</b>. Applying for MS/PhD, Fall 2027.</p>
+        <div class="links">
+          <a class="chip" href="#">✉ Email</a>
+          <a class="chip" href="#">GitHub</a>
+          <a class="chip" href="#">Scholar</a>
+          <a class="chip" href="#">LinkedIn</a>
+          <a class="chip" href="#">CV (PDF)</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEWS -->
+    <section id="news">
+      <div class="sec-tab"><span class="sq"></span>News</div>
+      <ul class="news">
+        <li><span class="date">Aug 2025</span><span>Joined <b>RBCCPS, IISc Bengaluru</b> as a Control &amp; Robotics Intern, advised by Dr. Pavankumar Tallapragada.</span></li>
+        <li><span class="date">2025</span><span>Started work on <b>RouteRovers</b> — real-time coordination for differential-drive fleets.</span></li>
+        <li><span class="date">2024</span><span>Research internship at <b>DRDO</b> on path curvature control.</span></li>
+      </ul>
+    </section>
+
+    <!-- RESEARCH -->
+    <section id="research">
+      <div class="sec-tab"><span class="sq"></span>Research</div>
+      <p class="lead">I'm drawn to the seam where <b>control theory meets learning</b> — building systems that carry formal safety guarantees yet remain empirically fast on real hardware. My current questions: how do we <em>learn</em> the parameters of an event-triggered controller without breaking its stability guarantees? How do fleets of real robots coordinate in real time under conflict?</p>
+      <div class="themes">
+        <span>event-triggered control</span>
+        <span>multi-agent RL</span>
+        <span>safe learning-based control</span>
+        <span>robot fleets</span>
+        <span>hybrid systems</span>
+      </div>
+    </section>
+
+    <!-- PUBLICATIONS -->
+    <section id="publications">
+      <div class="sec-tab"><span class="sq"></span>Publications</div>
+      <div class="pub">
+        <span class="venue-badge wip">In prep</span>
+        <div>
+          <div class="t">Learning Event-Triggering Thresholds under Lyapunov Safety Guarantees</div>
+          <div class="authors"><span class="me">Abhishek S</span>, P. Tallapragada</div>
+          <div class="where">In preparation, 2026</div>
+          <div class="btns"><a class="btn" href="#">Abstract</a><a class="btn" href="#">Code</a></div>
+        </div>
+      </div>
+      <div class="pub">
+        <span class="venue-badge">Workshop</span>
+        <div>
+          <div class="t">RouteRovers: Real-Time Coordination for Differential-Drive Robot Fleets</div>
+          <div class="authors"><span class="me">Abhishek S</span>, et al.</div>
+          <div class="where">Placeholder venue · 2025</div>
+          <div class="btns"><a class="btn" href="#">PDF</a><a class="btn" href="#">Project</a><a class="btn" href="#">Code</a></div>
+        </div>
+      </div>
+      <p class="lead mono" style="font-size:.78rem; color:var(--dim); margin-top:1rem">↑ placeholder entries — real papers/preprints drop in here, self-name bolded, newest first.</p>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="sec-tab"><span class="sq"></span>Projects</div>
+      <div class="proj"><span class="nm">RouteRovers<small>Closed-loop coordination framework for physical differential-drive fleets — OptiTrack feedback, pure-pursuit, conflict-localised lane reservations.</small></span><span class="side"><a class="btn" href="#">Code</a></span></div>
+      <div class="proj"><span class="nm">ETC-RL<small>Reinforcement learning (Q-learning, SAC) to learn event-trigger thresholds for an LTI system under a Lyapunov safety bound.</small></span><span class="side"><a class="btn" href="#">Code</a></span></div>
+      <div class="proj"><span class="nm">Curvature-Constrained Path Control<small>Path planning &amp; control for autonomous ground vehicles (DRDO).</small></span><span class="side"><a class="btn" href="#">Notes</a></span></div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <div class="sec-tab"><span class="sq"></span>Experience</div>
+      <div class="rowset">
+        <div class="r"><span class="yr">2025 —</span><span class="role">Control &amp; Robotics Intern<small>RBCCPS, Indian Institute of Science (IISc) · Advisor: Dr. Pavankumar Tallapragada</small></span></div>
+        <div class="r"><span class="yr">2024</span><span class="role">Research Intern<small>DRDO · Path planning &amp; curvature control</small></span></div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education">
+      <div class="sec-tab"><span class="sq"></span>Education</div>
+      <div class="rowset">
+        <div class="r"><span class="yr">20XX</span><span class="role">B.E. / B.Tech in ⟨Discipline⟩<small>⟨University⟩ · ⟨placeholder — fill in⟩</small></span></div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="sec-tab"><span class="sq"></span>Contact</div>
+      <p class="lead">Best reached by email — I read everything. Open to research chats, collaborations, and MS/PhD conversations.</p>
+      <div class="links">
+        <a class="chip" href="#">✉ hello@abhishek.s</a>
+        <a class="chip" href="#">GitHub</a>
+        <a class="chip" href="#">Google Scholar</a>
+        <a class="chip" href="#">LinkedIn</a>
+      </div>
+    </section>
+
+    <footer>
+      <span>© 2026 abhishek s · last updated jul 2026</span>
+      <span class="counter">VISITORS · 00000001</span>
+      <a href="index.html">← all four</a>
+    </footer>
+  </div>
+</body>
+</html>

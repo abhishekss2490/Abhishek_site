@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Directions — Abhishek S</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#17160F; --paper:#F4F1E8; --muted:#8B8578; --line:#DAD5C6; --accent:#3A6B5C; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:'Inter',system-ui,sans-serif; background:var(--paper); color:var(--ink);
+        line-height:1.5; -webkit-font-smoothing:antialiased; padding:8vw 6vw; }
+  .mono{ font-family:'IBM Plex Mono',ui-monospace,Consolas,monospace; }
+  header{ max-width:760px; margin:0 auto 4rem; }
+  .kicker{ font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.18em;
+           text-transform:uppercase; color:var(--accent); margin-bottom:1.2rem; }
+  h1{ font-size:clamp(1.8rem,4vw,2.6rem); font-weight:600; letter-spacing:-.02em; line-height:1.15; margin-bottom:1rem; }
+  header p{ color:var(--muted); max-width:52ch; }
+  .grid{ max-width:760px; margin:0 auto; display:grid; gap:1px; background:var(--line);
+         border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  a.card{ display:block; background:var(--paper); padding:1.6rem 1.8rem; text-decoration:none; color:inherit;
+          transition:background .18s ease; }
+  a.card:hover{ background:#EFEBDF; }
+  .card .n{ font-family:'IBM Plex Mono',monospace; font-size:.75rem; color:var(--muted); }
+  .card h2{ font-size:1.15rem; font-weight:600; margin:.3rem 0 .35rem; letter-spacing:-.01em; }
+  .card p{ color:var(--muted); font-size:.92rem; max-width:60ch; }
+  .card .arrow{ float:right; color:var(--accent); font-family:'IBM Plex Mono',monospace; }
+  footer{ max-width:760px; margin:3rem auto 0; color:var(--muted); font-size:.82rem;
+          font-family:'IBM Plex Mono',monospace; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="kicker">Portfolio · Design Directions</div>
+    <h1>Four ways your site could feel.</h1>
+    <p>Same placeholder content in each, so you're judging design, not words. Open one, scroll it, sit with it. Tell me which one is <em>you</em> — or which pieces of each to fuse.</p>
+  </header>
+  <div class="grid">
+    <a class="card" href="1-monospace-terminal.html">
+      <span class="arrow">→</span>
+      <span class="n">01</span>
+      <h2>Monospace Terminal</h2>
+      <p>Retro-computing soul, founder restraint. Everything mono, ink on paper, one quiet accent, structure shown like a directory.</p>
+    </a>
+    <a class="card" href="2-swiss-editorial.html">
+      <span class="arrow">→</span>
+      <span class="n">02</span>
+      <h2>Swiss Editorial</h2>
+      <p>Timeless and elegant. Big whitespace, confident display type, thin rules. The most pure-taste option; retro felt as calm.</p>
+    </a>
+    <a class="card" href="3-old-web-homage.html">
+      <span class="arrow">→</span>
+      <span class="n">03</span>
+      <h2>Old-Web Homage</h2>
+      <p>Tasteful 90s/2000s. Boxed panels, a real nav bar, subtle pixel accents. Nostalgia, disciplined — no kitsch.</p>
+    </a>
+    <a class="card" href="4-index-almanac.html">
+      <span class="arrow">→</span>
+      <span class="n">04</span>
+      <h2>Index / Almanac</h2>
+      <p>Dense, structured, everything-visible. Table-driven rows like a well-set CV. Reads as rigorous and serious.</p>
+    </a>
+  </div>
+  <footer>abhishek s · placeholder content · v0 explorations</footer>
+</body>
+</html>

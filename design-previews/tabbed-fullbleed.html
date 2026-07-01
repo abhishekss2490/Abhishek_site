@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abhishek S</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --milk:#FCFBF7; --milk2:#F7F4EC; --card:#FFFFFF; --ink:#26221B; --dim:#948C7D;
+    --line:#EAE3D5; --line2:#DCD4C3; --saffron:#FC8019; --saffron-deep:#E86E0B;
+    --wash:#FFF1E4; --shadow:rgba(38,34,27,.10);
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+  body{ font-family:'Inter',system-ui,sans-serif; background:var(--milk); color:var(--ink);
+        line-height:1.6; font-size:15px; -webkit-font-smoothing:antialiased; overflow:hidden; }
+  a{ color:var(--saffron-deep); text-decoration:none; } a:hover{ text-decoration:underline; }
+  .mono{ font-family:'IBM Plex Mono',monospace; }
+  em{ color:var(--saffron-deep); font-style:normal; }
+  ::selection{ background:var(--saffron); color:#fff; }
+
+  /* ---- full-bleed app: owns the entire viewport, no backdrop, no margins ---- */
+  .app{ height:100vh; display:flex; flex-direction:column; }
+
+  .topbar{ flex:none; background:var(--ink); color:var(--milk); display:flex; align-items:center;
+           justify-content:space-between; padding:.6rem 3vw; }
+  .topbar .logo{ font-family:'Silkscreen',monospace; font-size:.82rem; letter-spacing:.04em; display:flex; align-items:center; }
+  .topbar .logo b{ color:var(--saffron); }
+  .topbar .dots{ display:inline-flex; gap:.42rem; margin-left:.85rem; }
+  .topbar .dots i{ width:10px; height:10px; border-radius:50%; display:block; }
+  .topbar .dots i:nth-child(1){ background:var(--saffron);} .topbar .dots i:nth-child(2){ background:#F2B15E;} .topbar .dots i:nth-child(3){ background:#CFC7B6;}
+  .topbar .meta{ font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; color:#B9B2A3; }
+
+  /* tab strip, edge to edge */
+  .tabs{ flex:none; background:var(--ink); display:flex; align-items:flex-end; padding:0 3vw; gap:2px; }
+  .tab{ font-family:'IBM Plex Mono',monospace; font-size:.8rem; background:#3a352b; color:#C8C1B1;
+        border:none; padding:.55rem 1.15rem; cursor:pointer; border-top:2px solid transparent; }
+  .tab:hover{ color:var(--milk); background:#463f33; }
+  .tab[aria-selected="true"]{ background:var(--milk); color:var(--ink); font-weight:600; border-top:2px solid var(--saffron); }
+  .cvtab{ margin-left:auto; }
+  .cvtab a{ font-family:'IBM Plex Mono',monospace; font-size:.76rem; color:var(--saffron); padding:.55rem 1rem; display:block; }
+  .cvtab a:hover{ background:var(--saffron); color:#fff; text-decoration:none; }
+
+  /* content pane fills all remaining height & width */
+  .pane{ flex:1; min-height:0; overflow:auto; padding:2.4rem 3vw; }
+  .panel{ display:none; height:100%; }
+  .panel.active{ display:block; animation:fade .2s ease; }
+  @keyframes fade{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;} }
+
+  h2.head{ font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.2em; text-transform:uppercase;
+           color:var(--dim); margin-bottom:1.4rem; display:flex; align-items:center; gap:.55rem; }
+  h2.head::before{ content:""; width:8px; height:8px; background:var(--saffron); display:block; }
+
+  /* ---------- HOME: three balanced columns fill the width ---------- */
+  .home{ display:grid; grid-template-columns:210px minmax(0,1fr) 320px; gap:3vw; height:100%; align-content:center; }
+  .frame{ border:1.5px solid var(--ink); box-shadow:3px 3px 0 var(--shadow); }
+  .frame .cap{ background:var(--ink); color:var(--milk); font-family:'IBM Plex Mono',monospace; font-size:.58rem;
+               letter-spacing:.1em; padding:.26rem .5rem; display:flex; justify-content:space-between; }
+  .frame .cap .x{ color:var(--saffron); }
+  .frame .img{ aspect-ratio:1/1; overflow:hidden; display:flex; align-items:flex-end; justify-content:center;
+               background:linear-gradient(180deg,#F3EEE3,#E7E0D2); }
+  .frame .img img{ width:100%; height:100%; object-fit:cover; object-position:50% 10%; display:block; }
+  .frame .img svg{ width:74%; opacity:.45; }
+  .sidelinks{ display:flex; flex-direction:column; gap:.12rem; font-family:'IBM Plex Mono',monospace; font-size:.8rem; margin-top:.9rem; }
+  .sidelinks a{ color:var(--ink); } .sidelinks a::before{ content:"› "; color:var(--saffron); }
+  .sidelinks a:hover{ color:var(--saffron-deep); text-decoration:none; }
+  .loc{ font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:var(--dim); margin-top:.9rem; line-height:1.6; }
+
+  .lead-name{ font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:clamp(2rem,4vw,2.9rem);
+              letter-spacing:-.02em; line-height:1; }
+  .tag{ font-family:'IBM Plex Mono',monospace; font-size:.85rem; color:var(--saffron-deep); margin:.9rem 0 1.3rem; }
+  .blink{ color:var(--saffron); animation:b 1.15s steps(1) infinite; } @keyframes b{ 50%{opacity:0;} }
+  .bio{ font-size:1.05rem; color:#423d33; max-width:52ch; }
+  .bio b{ font-weight:600; color:var(--ink); }
+  .cta{ margin-top:1.6rem; display:inline-flex; gap:.6rem; }
+  .cta a{ font-family:'IBM Plex Mono',monospace; font-size:.78rem; padding:.5rem .95rem; border:1.4px solid var(--ink); }
+  .cta a.primary{ background:var(--saffron); color:#fff; border-color:var(--saffron-deep); }
+  .cta a.primary:hover{ background:var(--saffron-deep); text-decoration:none; }
+  .cta a.ghost:hover{ background:var(--ink); color:var(--milk); text-decoration:none; }
+
+  .aside{ border-left:1.5px solid var(--line2); padding-left:1.6rem; }
+  .aside .k{ font-family:'IBM Plex Mono',monospace; font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--saffron-deep); margin-bottom:.7rem; }
+  .news li{ list-style:none; padding:.45rem 0; border-bottom:1px dotted var(--line2); font-size:.86rem; color:#4a463b; }
+  .news li:last-child{ border:none; }
+  .news .d{ font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:var(--saffron-deep); display:block; }
+
+  /* ---------- RESEARCH: two columns ---------- */
+  .two{ display:grid; grid-template-columns:1.15fr 1fr; gap:4vw; align-items:start; }
+  p.lead{ font-size:1.02rem; color:#423d33; margin-bottom:1rem; max-width:60ch; }
+  .qbox{ background:var(--wash); border:1px solid #F6D9BE; padding:1.1rem 1.2rem; }
+  .qbox .k{ font-family:'IBM Plex Mono',monospace; font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--saffron-deep); margin-bottom:.6rem; }
+  .qbox li{ list-style:none; padding:.35rem 0; color:#4a463b; font-size:.92rem; }
+  .qbox li::before{ content:"→ "; color:var(--saffron); }
+  .themes{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.3rem; }
+  .themes span{ font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:#6a6456; background:var(--card);
+                border:1px solid var(--line2); padding:.28rem .65rem; }
+
+  /* ---------- PUBLICATIONS ---------- */
+  .pub{ display:grid; grid-template-columns:auto 1fr auto; gap:1.4rem; align-items:start;
+        padding:1.2rem 0; border-bottom:1px solid var(--line); }
+  .badge{ font-family:'IBM Plex Mono',monospace; font-size:.58rem; letter-spacing:.06em; text-transform:uppercase;
+          color:#fff; background:var(--saffron); padding:.24rem .5rem; white-space:nowrap; } .badge.wip{ background:var(--dim); }
+  .pub .t{ font-weight:600; font-size:1.05rem; line-height:1.3; }
+  .pub .au{ color:var(--dim); font-size:.9rem; margin:.2rem 0; } .pub .au .me{ color:var(--ink); font-weight:600; }
+  .pub .where{ color:var(--dim); font-size:.86rem; font-style:italic; }
+  .btns{ display:flex; gap:.4rem; } .btn{ font-family:'IBM Plex Mono',monospace; font-size:.64rem; letter-spacing:.05em;
+         text-transform:uppercase; border:1.3px solid var(--line2); background:var(--card); color:var(--ink); padding:.24rem .55rem; }
+  .btn:hover{ border-color:var(--saffron); background:var(--saffron); color:#fff; text-decoration:none; }
+
+  /* ---------- PROJECTS: card grid fills width ---------- */
+  .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; }
+  .cardp{ border:1.4px solid var(--ink); box-shadow:3px 3px 0 var(--shadow); background:var(--card); display:flex; flex-direction:column; }
+  .cardp .h{ background:var(--milk2); border-bottom:1px solid var(--line); padding:.5rem .8rem; font-weight:600; display:flex; justify-content:space-between; align-items:center; }
+  .cardp .h .n{ font-family:'IBM Plex Mono',monospace; font-size:.66rem; color:var(--saffron-deep); }
+  .cardp .c{ padding:.9rem .8rem; color:#4a463b; font-size:.9rem; flex:1; }
+  .cardp .f{ padding:.6rem .8rem; border-top:1px solid var(--line); }
+
+  /* ---------- EXPERIENCE ---------- */
+  .expcols{ display:grid; grid-template-columns:1fr 1fr; gap:4vw; }
+  .subhead{ font-family:'IBM Plex Mono',monospace; font-size:.64rem; letter-spacing:.16em; text-transform:uppercase; color:var(--saffron-deep); margin-bottom:.8rem; }
+  .r{ display:grid; grid-template-columns:5.5rem 1fr; gap:1.1rem; padding:.8rem 0; border-bottom:1px dotted var(--line2); }
+  .r:last-child{ border:none; } .r .yr{ font-family:'IBM Plex Mono',monospace; font-size:.78rem; color:var(--saffron-deep); }
+  .r .role{ font-weight:600; } .r .role small{ display:block; font-weight:400; color:var(--dim); font-size:.86rem; }
+
+  /* ---------- CONTACT ---------- */
+  .contact{ display:grid; grid-template-columns:1fr 1fr; gap:4vw; align-items:center; height:100%; }
+  .contact h3{ font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:clamp(1.6rem,3vw,2.4rem); letter-spacing:-.02em; line-height:1.1; }
+  .contact h3 a{ border-bottom:2px solid var(--saffron); }
+  .chips{ display:flex; flex-wrap:wrap; gap:.6rem; margin-top:.4rem; }
+  .chip{ font-family:'IBM Plex Mono',monospace; font-size:.76rem; color:var(--ink); border:1.4px solid var(--ink);
+         background:var(--card); box-shadow:2px 2px 0 var(--shadow); padding:.4rem .8rem; }
+  .chip:hover{ background:var(--saffron); color:#fff; border-color:var(--saffron-deep); text-decoration:none; }
+
+  .statusbar{ flex:none; background:var(--ink); color:#B9B2A3; font-family:'IBM Plex Mono',monospace;
+              font-size:.66rem; letter-spacing:.06em; display:flex; justify-content:space-between; padding:.4rem 3vw; }
+  .statusbar .counter{ color:var(--saffron); }
+
+  @media(max-width:820px){
+    body{ overflow:auto; } .app{ height:auto; min-height:100vh; }
+    .home,.two,.expcols,.contact{ grid-template-columns:1fr; gap:1.8rem; }
+    .aside{ border-left:none; border-top:1.5px solid var(--line2); padding-left:0; padding-top:1.4rem; }
+    .cards{ grid-template-columns:1fr; } .pane{ overflow:visible; }
+  }
+</style>
+</head>
+<body>
+  <div class="app">
+    <div class="topbar">
+      <span class="logo">ABHISHEK<b>.</b>S<span class="dots"><i></i><i></i><i></i></span></span>
+      <span class="meta">control · robotics · reinforcement learning</span>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab" role="tab" aria-selected="true"  data-tab="home">home</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="research">research</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="publications">publications</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="projects">projects</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="experience">experience</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="contact">contact</button>
+      <span class="cvtab"><a href="#">cv.pdf ↗</a></span>
+    </div>
+
+    <div class="pane">
+      <!-- HOME -->
+      <div class="panel active" id="home" role="tabpanel">
+        <div class="home">
+          <div class="col-side">
+            <div class="frame">
+              <div class="cap"><span>headshot.jpg</span><span class="x">◱</span></div>
+              <div class="img">
+                <img src="assets/headshot.jpg" alt="Abhishek S" onerror="this.remove(); document.getElementById('ph').hidden=false;">
+                <svg id="ph" hidden viewBox="0 0 100 108" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="50" cy="38" r="22" fill="#2b2820"/><path d="M12 108 C12 74 30 64 50 64 C70 64 88 74 88 108 Z" fill="#2b2820"/>
+                </svg>
+              </div>
+            </div>
+            <nav class="sidelinks"><a href="#">Email</a><a href="#">GitHub</a><a href="#">Scholar</a><a href="#">LinkedIn</a></nav>
+            <div class="loc">Bengaluru, India<br>RBCCPS · IISc</div>
+          </div>
+
+          <div class="col-main">
+            <div class="lead-name">Abhishek S</div>
+            <div class="tag">control · robotics · reinforcement learning<span class="blink">_</span></div>
+            <p class="bio">I build <b>closed-loop systems for physical robot fleets</b> — event-triggered controllers, multi-robot coordination, and the control theory that keeps them provably safe. Currently a Control &amp; Robotics Intern at <b>RBCCPS, IISc Bengaluru</b>. Applying for MS/PhD, Fall 2027.</p>
+            <div class="cta"><a class="primary" href="#">Read the research</a><a class="ghost" href="#">Download CV</a></div>
+          </div>
+
+          <aside class="aside">
+            <div class="k">News</div>
+            <ul class="news">
+              <li><span class="d">Aug 2025</span>Joined RBCCPS, IISc — advised by Dr. P. Tallapragada.</li>
+              <li><span class="d">2025</span>Started RouteRovers — real-time fleet coordination.</li>
+              <li><span class="d">2024</span>Research internship at DRDO.</li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+
+      <!-- RESEARCH -->
+      <div class="panel" id="research" role="tabpanel">
+        <h2 class="head">Research</h2>
+        <div class="two">
+          <div>
+            <p class="lead">I'm drawn to the seam where <em>control theory meets learning</em> — systems that carry formal safety guarantees yet stay empirically fast on real hardware.</p>
+            <p class="lead">My work spans the loop end to end: the controller, the learning that tunes it, and the physical fleet it runs on.</p>
+            <div class="themes"><span>event-triggered control</span><span>multi-agent RL</span><span>safe learning-based control</span><span>robot fleets</span><span>hybrid systems</span></div>
+          </div>
+          <div class="qbox">
+            <div class="k">Questions I'm chasing</div>
+            <ul>
+              <li>Can we <em>learn</em> an event-trigger's parameters without breaking its stability guarantees?</li>
+              <li>How do fleets of real robots coordinate in real time under conflict?</li>
+              <li>Where can learning safely replace hand-tuned control?</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- PUBLICATIONS -->
+      <div class="panel" id="publications" role="tabpanel">
+        <h2 class="head">Publications &amp; Preprints</h2>
+        <div class="pub">
+          <span class="badge wip">In prep</span>
+          <div><div class="t">Learning Event-Triggering Thresholds under Lyapunov Safety Guarantees</div>
+            <div class="au"><span class="me">Abhishek S</span>, P. Tallapragada</div>
+            <div class="where">In preparation, 2026</div></div>
+          <div class="btns"><a class="btn" href="#">Abstract</a><a class="btn" href="#">Code</a></div>
+        </div>
+        <div class="pub">
+          <span class="badge">Workshop</span>
+          <div><div class="t">RouteRovers: Real-Time Coordination for Differential-Drive Robot Fleets</div>
+            <div class="au"><span class="me">Abhishek S</span>, et al.</div>
+            <div class="where">Placeholder venue · 2025</div></div>
+          <div class="btns"><a class="btn" href="#">PDF</a><a class="btn" href="#">Project</a><a class="btn" href="#">Code</a></div>
+        </div>
+      </div>
+
+      <!-- PROJECTS -->
+      <div class="panel" id="projects" role="tabpanel">
+        <h2 class="head">Projects</h2>
+        <div class="cards">
+          <div class="cardp"><div class="h">RouteRovers <span class="n">01</span></div><div class="c">Closed-loop coordination for physical differential-drive fleets — OptiTrack feedback, pure-pursuit, conflict-localised lane reservations.</div><div class="f"><a class="btn" href="#">Code</a></div></div>
+          <div class="cardp"><div class="h">ETC-RL <span class="n">02</span></div><div class="c">Reinforcement learning (Q-learning, SAC) to learn event-trigger thresholds for an LTI system under a Lyapunov safety bound.</div><div class="f"><a class="btn" href="#">Code</a></div></div>
+          <div class="cardp"><div class="h">Curvature Path <span class="n">03</span></div><div class="c">Curvature-constrained path planning &amp; control for autonomous ground vehicles (DRDO).</div><div class="f"><a class="btn" href="#">Notes</a></div></div>
+        </div>
+      </div>
+
+      <!-- EXPERIENCE -->
+      <div class="panel" id="experience" role="tabpanel">
+        <h2 class="head">Experience &amp; Education</h2>
+        <div class="expcols">
+          <div>
+            <div class="subhead">Appointments</div>
+            <div class="r"><span class="yr">2025 —</span><span class="role">Control &amp; Robotics Intern<small>RBCCPS, Indian Institute of Science (IISc) · Advisor: Dr. Pavankumar Tallapragada</small></span></div>
+            <div class="r"><span class="yr">2024</span><span class="role">Research Intern<small>DRDO · Path planning &amp; curvature control</small></span></div>
+          </div>
+          <div>
+            <div class="subhead">Education</div>
+            <div class="r"><span class="yr">20XX</span><span class="role">B.E. / B.Tech in ⟨Discipline⟩<small>⟨University⟩ · ⟨placeholder — fill in⟩</small></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div class="panel" id="contact" role="tabpanel">
+        <div class="contact">
+          <div>
+            <h2 class="head">Contact</h2>
+            <h3>Let's talk —<br><a href="#">hello@abhishek.s</a></h3>
+          </div>
+          <div>
+            <p class="lead">Best reached by email. Open to research chats, collaborations, and MS/PhD conversations.</p>
+            <div class="chips"><a class="chip" href="#">GitHub</a><a class="chip" href="#">Google Scholar</a><a class="chip" href="#">LinkedIn</a><a class="chip" href="#">CV (PDF)</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="statusbar">
+      <span id="stat">▪ home</span>
+      <span>use ← → to switch · © 2026 abhishek s</span>
+      <span class="counter">VISITORS · 00000001</span>
+    </div>
+  </div>
+
+  <script>
+    const tabs=[...document.querySelectorAll('.tab')], panels=[...document.querySelectorAll('.panel')], stat=document.getElementById('stat');
+    function select(i){
+      tabs.forEach((t,j)=>t.setAttribute('aria-selected', j===i));
+      panels.forEach(p=>p.classList.remove('active'));
+      const id=tabs[i].dataset.tab; document.getElementById(id).classList.add('active');
+      stat.textContent='▪ '+id; document.querySelector('.pane').scrollTop=0;
+    }
+    tabs.forEach((t,i)=>t.addEventListener('click',()=>select(i)));
+    document.addEventListener('keydown',e=>{
+      const cur=tabs.findIndex(t=>t.getAttribute('aria-selected')==='true');
+      if(e.key==='ArrowRight'){ select((cur+1)%tabs.length); e.preventDefault(); }
+      if(e.key==='ArrowLeft'){ select((cur-1+tabs.length)%tabs.length); e.preventDefault(); }
+    });
+  </script>
+</body>
+</html>

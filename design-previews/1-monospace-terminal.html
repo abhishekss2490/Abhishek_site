@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abhishek S — Monospace Terminal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16150E; --paper:#F3F0E6; --dim:#8C8676; --line:#D9D3C2;
+    --accent:#3C6E5C; --accent2:#B4643A;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{ font-family:'IBM Plex Mono',ui-monospace,Consolas,monospace; background:var(--paper);
+        color:var(--ink); line-height:1.65; font-size:15px; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:720px; margin:0 auto; padding:0 5vw; }
+  a{ color:inherit; text-decoration:none; }
+  ::selection{ background:var(--accent); color:var(--paper); }
+
+  /* top bar */
+  nav{ position:sticky; top:0; z-index:10; background:rgba(243,240,230,.82); backdrop-filter:blur(8px);
+       border-bottom:1px solid var(--line); }
+  .nav-in{ max-width:720px; margin:0 auto; padding:.9rem 5vw; display:flex; justify-content:space-between; align-items:center; }
+  .brand{ font-weight:600; letter-spacing:-.01em; }
+  .brand .dot{ color:var(--accent); }
+  .nav-links{ display:flex; gap:1.4rem; font-size:.82rem; }
+  .nav-links a{ color:var(--dim); }
+  .nav-links a:hover{ color:var(--ink); }
+  .nav-links a::before{ content:"["; color:var(--line); }
+  .nav-links a::after{ content:"]"; color:var(--line); }
+
+  section{ padding:4.5rem 0; border-bottom:1px dashed var(--line); }
+  .label{ font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin-bottom:1.6rem; }
+  .label::before{ content:"~/ "; color:var(--dim); }
+
+  /* hero */
+  .hero{ padding-top:5rem; }
+  .prompt{ color:var(--dim); font-size:.85rem; margin-bottom:1.5rem; }
+  .prompt .c{ color:var(--accent); }
+  h1{ font-size:clamp(2rem,6vw,3rem); font-weight:600; letter-spacing:-.03em; line-height:1.05; margin-bottom:1.2rem; }
+  .tags{ color:var(--dim); font-size:.9rem; margin-bottom:2rem; }
+  .tags b{ color:var(--ink); font-weight:500; }
+  .lede{ font-size:1.05rem; max-width:56ch; }
+  .lede .hi{ color:var(--accent2); }
+  .cursor{ display:inline-block; width:.6ch; height:1.1em; background:var(--ink); vertical-align:-2px;
+           margin-left:2px; animation:blink 1.1s steps(1) infinite; }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  /* research list */
+  .row{ display:grid; grid-template-columns:auto 1fr auto; gap:1.2rem; align-items:baseline;
+        padding:1.1rem 0; border-top:1px solid var(--line); transition:padding-left .18s ease; }
+  .row:hover{ padding-left:.6rem; }
+  .row:last-child{ border-bottom:1px solid var(--line); }
+  .row .id{ color:var(--dim); font-size:.85rem; }
+  .row .t{ font-weight:600; }
+  .row .t small{ display:block; font-weight:400; color:var(--dim); font-size:.85rem; margin-top:.15rem; }
+  .row .go{ color:var(--accent); opacity:0; transition:opacity .18s; }
+  .row:hover .go{ opacity:1; }
+
+  /* about + list */
+  p.body{ max-width:60ch; color:#3a382e; margin-bottom:1rem; }
+  ul.plain{ list-style:none; max-width:60ch; }
+  ul.plain li{ padding:.35rem 0; color:#3a382e; }
+  ul.plain li::before{ content:"— "; color:var(--accent); }
+
+  /* contact */
+  .links{ display:flex; flex-wrap:wrap; gap:.6rem 1.4rem; margin-top:1.2rem; }
+  .links a{ color:var(--ink); border-bottom:1px solid var(--accent); padding-bottom:1px; }
+  .links a:hover{ color:var(--accent); }
+  footer{ padding:2.5rem 0 4rem; color:var(--dim); font-size:.78rem; }
+  .badge{ display:inline-block; border:1px solid var(--line); border-radius:5px; padding:.15rem .55rem;
+          font-size:.72rem; color:var(--dim); }
+</style>
+</head>
+<body>
+  <nav><div class="nav-in">
+    <a class="brand" href="#">abhishek<span class="dot">.</span>s</a>
+    <div class="nav-links">
+      <a href="#research">index</a>
+      <a href="#about">about</a>
+      <a href="#contact">cv</a>
+    </div>
+  </div></nav>
+
+  <div class="wrap">
+    <header class="hero" id="top">
+      <div class="prompt"><span class="c">abhishek@iisc</span>:~$ whoami</div>
+      <h1>Abhishek S</h1>
+      <div class="tags"><b>control</b> · <b>robotics</b> · <b>reinforcement learning</b></div>
+      <p class="lede">I build <span class="hi">closed-loop systems</span> for physical robot fleets — from event-triggered controllers to real-time multi-robot coordination.<span class="cursor"></span></p>
+    </header>
+
+    <section id="research">
+      <div class="label">research</div>
+      <div class="row"><span class="id">01</span><span class="t">RouteRovers<small>Real-time closed-loop coordination for differential-drive robot fleets</small></span><span class="go">→</span></div>
+      <div class="row"><span class="id">02</span><span class="t">Event-Triggered Control<small>Learning state-dependent trigger thresholds with RL under a Lyapunov safety bound</small></span><span class="go">→</span></div>
+      <div class="row"><span class="id">03</span><span class="t">DRDO · Path Curvature<small>Curvature-constrained path control for autonomous ground vehicles</small></span><span class="go">→</span></div>
+    </section>
+
+    <section id="about">
+      <div class="label">about</div>
+      <p class="body">Control &amp; Robotics Intern at the Robert Bosch Centre for Cyber-Physical Systems (RBCCPS), IISc Bengaluru. I care about the seam where control theory meets learning — systems that are provably safe and empirically fast.</p>
+      <ul class="plain">
+        <li>Currently: RBCCPS, IISc Bengaluru — 2025 to present</li>
+        <li>Applying for MS/PhD, Fall 2027</li>
+        <li>Interests: event-triggered &amp; hybrid control, multi-agent RL, robot fleets</li>
+      </ul>
+    </section>
+
+    <section id="contact">
+      <div class="label">contact</div>
+      <p class="body">Best reached by email. I read everything.</p>
+      <div class="links">
+        <a href="#">email</a><a href="#">github</a><a href="#">google scholar</a><a href="#">linkedin</a><a href="#">cv.pdf</a>
+      </div>
+    </section>
+
+    <footer>
+      <span class="badge">DIRECTION 01 · MONOSPACE TERMINAL</span><br><br>
+      © 2026 abhishek s · built with restraint · <a href="index.html" style="border-bottom:1px solid var(--line)">← back to all four</a>
+    </footer>
+  </div>
+</body>
+</html>

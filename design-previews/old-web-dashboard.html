@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abhishek S — Control Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --milk:#FCFBF7; --back:#EFE9DD; --card:#FFFFFF; --ink:#26221B; --dim:#9B9384;
+    --line:#E7E0D1; --line2:#DBD3C2; --saffron:#FC8019; --saffron-deep:#E86E0B;
+    --wash:#FFF1E4; --shadow:rgba(38,34,27,.13);
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+  body{ font-family:'Inter',system-ui,sans-serif; background:var(--back);
+        background-image:radial-gradient(#E1D8C7 .6px, transparent .6px); background-size:15px 15px;
+        color:var(--ink); line-height:1.55; font-size:14.5px; -webkit-font-smoothing:antialiased;
+        display:flex; align-items:center; justify-content:center; padding:2.4vh 2vw; }
+  a{ color:var(--saffron-deep); text-decoration:none; } a:hover{ text-decoration:underline; }
+  .mono{ font-family:'IBM Plex Mono',monospace; }
+  ::selection{ background:var(--saffron); color:#fff; }
+
+  /* window fills most of the screen — minimal outer margin */
+  .win{ width:min(1060px,100%); height:min(700px,95vh); display:flex; flex-direction:column;
+        border:1.5px solid var(--ink); box-shadow:6px 7px 0 var(--shadow); background:var(--milk); }
+  .titlebar{ background:var(--ink); color:var(--milk); display:flex; align-items:center; justify-content:space-between;
+             padding:.5rem .9rem; flex:none; }
+  .titlebar .logo{ font-family:'Silkscreen',monospace; font-size:.82rem; letter-spacing:.04em; }
+  .titlebar .logo b{ color:var(--saffron); }
+  .dots{ display:inline-flex; gap:.42rem; margin-left:.8rem; vertical-align:middle; }
+  .dots i{ width:10px; height:10px; border-radius:50%; display:block; }
+  .dots i:nth-child(1){ background:var(--saffron);} .dots i:nth-child(2){ background:#F2B15E;} .dots i:nth-child(3){ background:#CFC7B6;}
+  .titlebar .cv{ font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--saffron);
+                 border:1.3px solid #5a5344; padding:.22rem .6rem; }
+  .titlebar .cv:hover{ background:var(--saffron); color:#fff; text-decoration:none; }
+
+  /* ---- BENTO: tiles tessellate the whole area, even gaps, no voids ---- */
+  .desk{ flex:1; display:grid; gap:9px; padding:11px; min-height:0;
+         grid-template-columns:1.55fr 1fr 1fr;
+         grid-template-rows:1fr 1fr 1.15fr;
+         grid-template-areas:
+           "id   id   research"
+           "id   id   experience"
+           "pubs proj links"; }
+  .tile{ background:var(--card); border:1.4px solid var(--ink); display:flex; flex-direction:column;
+         min-height:0; box-shadow:2px 2px 0 var(--shadow); }
+  .tile > .bar{ flex:none; display:flex; align-items:center; justify-content:space-between;
+                border-bottom:1px solid var(--line); padding:.34rem .6rem; }
+  .tile > .bar .lbl{ font-family:'IBM Plex Mono',monospace; font-size:.6rem; letter-spacing:.15em;
+                     text-transform:uppercase; color:var(--dim); display:flex; align-items:center; gap:.4rem; }
+  .tile > .bar .lbl::before{ content:""; width:6px; height:6px; background:var(--saffron); display:block; }
+  .tile > .bar .more{ font-family:'IBM Plex Mono',monospace; font-size:.62rem; color:var(--saffron-deep); }
+  .tile > .body{ flex:1; min-height:0; overflow:auto; padding:.7rem .75rem; }
+  .tile > .body::-webkit-scrollbar{ width:8px; } .tile > .body::-webkit-scrollbar-thumb{ background:var(--line2); border:2px solid var(--card); }
+  em{ color:var(--saffron-deep); font-style:normal; }
+
+  /* IDENTITY tile */
+  #id{ grid-area:id; }
+  .idwrap{ display:grid; grid-template-columns:132px 1fr; gap:1.1rem; height:100%; align-content:start; }
+  .frame{ border:1.4px solid var(--ink); box-shadow:2px 2px 0 var(--shadow); }
+  .frame .cap{ background:var(--ink); color:var(--milk); font-family:'IBM Plex Mono',monospace; font-size:.55rem;
+               letter-spacing:.1em; padding:.24rem .45rem; display:flex; justify-content:space-between; }
+  .frame .cap .x{ color:var(--saffron); }
+  .frame .img{ aspect-ratio:1/1; overflow:hidden; display:flex; align-items:flex-end; justify-content:center;
+               background:linear-gradient(180deg,#F3EEE3,#E7E0D2); }
+  .frame .img img{ width:100%; height:100%; object-fit:cover; object-position:50% 10%; display:block; }
+  .frame .img svg{ width:74%; opacity:.45; }
+  .sidelinks{ display:flex; flex-direction:column; gap:.05rem; font-family:'IBM Plex Mono',monospace; font-size:.72rem; margin-top:.55rem; }
+  .sidelinks a{ color:var(--ink); } .sidelinks a::before{ content:"› "; color:var(--saffron); }
+  .sidelinks a:hover{ color:var(--saffron-deep); text-decoration:none; }
+  h1{ font-family:'Silkscreen',monospace; font-size:1.5rem; line-height:1.15; }
+  .tag{ font-family:'IBM Plex Mono',monospace; font-size:.74rem; color:var(--saffron-deep); margin:.5rem 0 .7rem; }
+  .blink{ color:var(--saffron); animation:b 1.15s steps(1) infinite; } @keyframes b{ 50%{opacity:0;} }
+  .bio{ color:#423d33; max-width:44ch; }
+  .bio b{ font-weight:600; color:var(--ink); }
+  .now{ margin-top:.7rem; font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:#5f5949; }
+  .now .k{ color:var(--saffron-deep); }
+
+  /* RESEARCH */
+  #research{ grid-area:research; }
+  .rline{ color:#423d33; font-size:.86rem; margin-bottom:.6rem; }
+  .themes{ display:flex; flex-wrap:wrap; gap:.4rem; }
+  .themes span{ font-family:'IBM Plex Mono',monospace; font-size:.66rem; color:#6a6456;
+                background:var(--wash); border:1px solid #F6D9BE; padding:.2rem .5rem; }
+
+  /* EXPERIENCE */
+  #experience{ grid-area:experience; }
+  .r{ display:grid; grid-template-columns:4.4rem 1fr; gap:.6rem; padding:.4rem 0; border-bottom:1px dotted var(--line2); }
+  .r:last-child{ border:none; }
+  .r .yr{ font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:var(--saffron-deep); }
+  .r .role{ font-weight:600; font-size:.85rem; }
+  .r .role small{ display:block; font-weight:400; color:var(--dim); font-size:.76rem; line-height:1.4; }
+
+  /* PUBLICATIONS */
+  #pubs{ grid-area:pubs; }
+  .pub{ padding:.5rem 0; border-bottom:1px dotted var(--line2); }
+  .pub:last-child{ border:none; }
+  .pub .t{ font-weight:600; font-size:.84rem; line-height:1.3; }
+  .pub .meta{ font-size:.74rem; color:var(--dim); margin-top:.15rem; display:flex; gap:.5rem; align-items:center; }
+  .badge{ font-family:'IBM Plex Mono',monospace; font-size:.52rem; letter-spacing:.05em; text-transform:uppercase;
+          color:#fff; background:var(--saffron); padding:.14rem .38rem; } .badge.wip{ background:var(--dim); }
+
+  /* PROJECTS */
+  #proj{ grid-area:proj; }
+  .p{ padding:.42rem 0; border-bottom:1px dotted var(--line2); }
+  .p:last-child{ border:none; }
+  .p .nm{ font-weight:600; font-size:.85rem; }
+  .p .nm small{ display:block; font-weight:400; color:var(--dim); font-size:.75rem; line-height:1.4; }
+
+  /* LINKS */
+  #links{ grid-area:links; }
+  .chips{ display:flex; flex-wrap:wrap; gap:.4rem; }
+  .chip{ font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:var(--ink); border:1.3px solid var(--ink);
+         background:var(--card); box-shadow:2px 2px 0 var(--shadow); padding:.28rem .55rem; }
+  .chip:hover{ background:var(--saffron); color:#fff; border-color:var(--saffron-deep); text-decoration:none; }
+  .chip.mail{ background:var(--saffron); color:#fff; border-color:var(--saffron-deep); }
+
+  .statusbar{ flex:none; background:var(--ink); color:#B8B1A2; font-family:'IBM Plex Mono',monospace;
+              font-size:.64rem; letter-spacing:.06em; display:flex; justify-content:space-between; padding:.36rem .9rem; }
+  .statusbar .counter{ color:var(--saffron); }
+
+  @media(max-width:720px){
+    body{ padding:0; } .win{ height:100vh; width:100%; border:none; box-shadow:none; }
+    .desk{ grid-template-columns:1fr 1fr; grid-template-rows:none; grid-auto-rows:minmax(120px,auto);
+           grid-template-areas:"id id" "research experience" "pubs proj" "links links"; overflow:auto; }
+    .idwrap{ grid-template-columns:120px 1fr; }
+  }
+</style>
+</head>
+<body>
+  <div class="win" role="application" aria-label="Abhishek S — portfolio">
+    <div class="titlebar">
+      <span class="logo">ABHISHEK<b>.</b>S<span class="dots"><i></i><i></i><i></i></span></span>
+      <a class="cv" href="#">cv.pdf ↗</a>
+    </div>
+
+    <div class="desk">
+      <!-- IDENTITY -->
+      <div class="tile" id="id">
+        <div class="bar"><span class="lbl">whoami</span><span class="mono" style="font-size:.6rem;color:var(--dim)">Bengaluru, IN</span></div>
+        <div class="body">
+          <div class="idwrap">
+            <div>
+              <div class="frame">
+                <div class="cap"><span>headshot.jpg</span><span class="x">◱</span></div>
+                <div class="img">
+                  <img src="assets/headshot.jpg" alt="Abhishek S" onerror="this.remove(); document.getElementById('ph').hidden=false;">
+                  <svg id="ph" hidden viewBox="0 0 100 108" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="38" r="22" fill="#2b2820"/><path d="M12 108 C12 74 30 64 50 64 C70 64 88 74 88 108 Z" fill="#2b2820"/>
+                  </svg>
+                </div>
+              </div>
+              <nav class="sidelinks">
+                <a href="#">Email</a><a href="#">GitHub</a><a href="#">Scholar</a><a href="#">LinkedIn</a>
+              </nav>
+            </div>
+            <div>
+              <h1>Abhishek S</h1>
+              <div class="tag mono">control · robotics · reinforcement learning<span class="blink">_</span></div>
+              <p class="bio">I build <b>closed-loop systems for physical robot fleets</b> — event-triggered controllers, multi-robot coordination, and the control theory that keeps them provably safe. Currently a Control &amp; Robotics Intern at <b>RBCCPS, IISc Bengaluru</b>. Applying for MS/PhD, Fall 2027.</p>
+              <div class="now"><span class="k">now »</span> RouteRovers · learning event-triggers</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESEARCH -->
+      <div class="tile" id="research">
+        <div class="bar"><span class="lbl">research</span><a class="more" href="#">open →</a></div>
+        <div class="body">
+          <p class="rline">The seam where <em>control theory meets learning</em> — provably safe, empirically fast, on real hardware.</p>
+          <div class="themes">
+            <span>event-triggered control</span><span>multi-agent RL</span><span>safe learning-based control</span><span>robot fleets</span><span>hybrid systems</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPERIENCE -->
+      <div class="tile" id="experience">
+        <div class="bar"><span class="lbl">experience</span></div>
+        <div class="body">
+          <div class="r"><span class="yr">2025 —</span><span class="role">Control &amp; Robotics Intern<small>RBCCPS, IISc · Adv: P. Tallapragada</small></span></div>
+          <div class="r"><span class="yr">2024</span><span class="role">Research Intern<small>DRDO · path curvature control</small></span></div>
+          <div class="r"><span class="yr">20XX</span><span class="role">B.E. / B.Tech<small>⟨University — placeholder⟩</small></span></div>
+        </div>
+      </div>
+
+      <!-- PUBLICATIONS -->
+      <div class="tile" id="pubs">
+        <div class="bar"><span class="lbl">publications</span><a class="more" href="#">all →</a></div>
+        <div class="body">
+          <div class="pub"><div class="t">Learning Event-Triggering Thresholds under Lyapunov Safety Guarantees</div><div class="meta"><span class="badge wip">In prep</span> Abhishek S, P. Tallapragada · 2026</div></div>
+          <div class="pub"><div class="t">RouteRovers: Real-Time Coordination for Differential-Drive Fleets</div><div class="meta"><span class="badge">Workshop</span> Abhishek S, et al. · 2025</div></div>
+        </div>
+      </div>
+
+      <!-- PROJECTS -->
+      <div class="tile" id="proj">
+        <div class="bar"><span class="lbl">projects</span><a class="more" href="#">all →</a></div>
+        <div class="body">
+          <div class="p"><span class="nm">RouteRovers<small>Closed-loop coordination for differential-drive fleets.</small></span></div>
+          <div class="p"><span class="nm">ETC-RL<small>RL for event-trigger thresholds under a safety bound.</small></span></div>
+          <div class="p"><span class="nm">Curvature Path Control<small>Path planning for ground vehicles (DRDO).</small></span></div>
+        </div>
+      </div>
+
+      <!-- LINKS / CONTACT -->
+      <div class="tile" id="links">
+        <div class="bar"><span class="lbl">contact</span></div>
+        <div class="body">
+          <div class="chips">
+            <a class="chip mail" href="#">✉ Email</a><a class="chip" href="#">GitHub</a><a class="chip" href="#">Scholar</a><a class="chip" href="#">LinkedIn</a><a class="chip" href="#">CV</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="statusbar">
+      <span>▪ control panel · 6 modules</span>
+      <span class="counter">VISITORS · 00000001</span>
+    </div>
+  </div>
+</body>
+</html>

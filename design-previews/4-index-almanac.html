@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abhishek S — Index / Almanac</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A1913; --paper:#FCFBF6; --dim:#77726A; --line:#E0DCD0; --line2:#CBC6B8; --accent:#3A5A4A;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{ font-family:'Newsreader',Georgia,serif; background:var(--paper); color:var(--ink);
+        line-height:1.55; font-size:17px; -webkit-font-smoothing:antialiased; }
+  a{ color:inherit; text-decoration:none; }
+  .mono{ font-family:'IBM Plex Mono',monospace; }
+  ::selection{ background:var(--accent); color:var(--paper); }
+  .wrap{ max-width:820px; margin:0 auto; padding:0 6vw; }
+
+  /* masthead */
+  header{ border-bottom:2px solid var(--ink); padding:3rem 0 1.2rem; margin-bottom:0; }
+  .masthead{ display:flex; justify-content:space-between; align-items:flex-end; }
+  .masthead h1{ font-weight:500; font-size:clamp(2rem,5vw,3rem); letter-spacing:-.01em; line-height:1; }
+  .masthead .role{ font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.14em;
+                   text-transform:uppercase; color:var(--accent); text-align:right; line-height:1.7; }
+  .dateline{ font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.1em; text-transform:uppercase;
+             color:var(--dim); display:flex; justify-content:space-between; padding:.6rem 0; border-bottom:1px solid var(--line2); }
+
+  /* intro */
+  .lede{ font-size:clamp(1.25rem,2.6vw,1.7rem); line-height:1.35; max-width:32ch; padding:2.5rem 0 2rem; letter-spacing:-.01em; }
+  .lede em{ font-style:italic; color:var(--accent); }
+
+  /* sections as tables */
+  section{ padding:1.6rem 0; border-top:1px solid var(--line); }
+  .sec-title{ font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.2em; text-transform:uppercase;
+              color:var(--dim); margin-bottom:1rem; }
+  table{ width:100%; border-collapse:collapse; }
+  td{ padding:.7rem 0; vertical-align:baseline; border-bottom:1px solid var(--line); }
+  tr:last-child td{ border-bottom:none; }
+  .yr{ font-family:'IBM Plex Mono',monospace; font-size:.82rem; color:var(--accent); width:5.5rem; white-space:nowrap; }
+  .primary{ font-size:1.05rem; }
+  .primary .role2{ display:block; color:var(--dim); font-size:.92rem; }
+  .place{ text-align:right; color:var(--dim); font-size:.9rem; font-family:'IBM Plex Mono',monospace;
+          width:8rem; white-space:nowrap; }
+  tr.link:hover td{ background:#F5F2E9; }
+  tr.link td:first-child{ padding-left:.4rem; }
+  .go{ color:var(--accent); opacity:0; }
+  tr.link:hover .go{ opacity:1; }
+
+  .idcol{ font-family:'IBM Plex Mono',monospace; font-size:.8rem; color:var(--dim); width:3rem; }
+
+  /* elsewhere */
+  .elsewhere{ display:flex; flex-wrap:wrap; gap:.5rem 2rem; font-family:'IBM Plex Mono',monospace; font-size:.9rem; }
+  .elsewhere a{ border-bottom:1px solid var(--line2); padding-bottom:1px; }
+  .elsewhere a:hover{ border-color:var(--accent); color:var(--accent); }
+
+  footer{ border-top:2px solid var(--ink); margin-top:1rem; padding:1.4rem 0 4rem;
+          display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace;
+          font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); }
+</style>
+</head>
+<body>
+  <div class="wrap" id="top">
+    <header>
+      <div class="masthead">
+        <h1>Abhishek S</h1>
+        <div class="role">Robotics · Control<br>Reinforcement Learning</div>
+      </div>
+    </header>
+    <div class="dateline">
+      <span>Bengaluru, India</span>
+      <span>Est. — · MS/PhD Fall 2027</span>
+      <span>№ 01</span>
+    </div>
+
+    <p class="lede">I build closed-loop systems for physical robot fleets — <em>provably safe,</em> empirically fast.</p>
+
+    <section>
+      <div class="sec-title">Appointments</div>
+      <table>
+        <tr><td class="yr">2025 —</td><td class="primary">Robert Bosch Centre for Cyber-Physical Systems<span class="role2">Control &amp; Robotics Intern</span></td><td class="place">IISc</td></tr>
+        <tr><td class="yr">2024</td><td class="primary">Path Planning &amp; Curvature Control<span class="role2">Research Intern</span></td><td class="place">DRDO</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <div class="sec-title">Research &amp; Projects</div>
+      <table>
+        <tr class="link"><td class="idcol">01</td><td class="primary">RouteRovers<span class="role2">Real-time closed-loop coordination for differential-drive robot fleets</span></td><td class="place">2025 <span class="go">→</span></td></tr>
+        <tr class="link"><td class="idcol">02</td><td class="primary">Event-Triggered Control via RL<span class="role2">Learning trigger thresholds under a Lyapunov safety bound</span></td><td class="place">2025 <span class="go">→</span></td></tr>
+        <tr class="link"><td class="idcol">03</td><td class="primary">Path Curvature Control<span class="role2">Curvature-constrained control for autonomous ground vehicles</span></td><td class="place">2024 <span class="go">→</span></td></tr>
+      </table>
+    </section>
+
+    <section>
+      <div class="sec-title">Interests</div>
+      <table>
+        <tr><td class="primary">Event-triggered &amp; hybrid control · Multi-agent reinforcement learning · Robot fleets · Safe learning-based control</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <div class="sec-title">Elsewhere</div>
+      <div class="elsewhere">
+        <a href="#">Email</a>
+        <a href="#">GitHub</a>
+        <a href="#">Google Scholar</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">CV (PDF)</a>
+      </div>
+    </section>
+
+    <footer>
+      <span>Direction 04 · Index / Almanac</span>
+      <a href="index.html">← Back to all four</a>
+    </footer>
+  </div>
+</body>
+</html>

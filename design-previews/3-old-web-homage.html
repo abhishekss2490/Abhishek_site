@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abhishek S — Old-Web Homage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1E1C16; --paper:#E7E3D6; --panel:#F1EEE3; --dim:#7C766A;
+    --line:#B9B2A0; --shadow:#C9C3B2; --accent:#294B8C; --accent2:#8C3A2E;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{ font-family:'Inter',system-ui,sans-serif; background:var(--paper);
+        background-image:radial-gradient(var(--line) .5px, transparent .5px);
+        background-size:14px 14px; color:var(--ink); line-height:1.55; font-size:15px; }
+  a{ color:var(--accent); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  .mono{ font-family:'IBM Plex Mono',monospace; }
+  .pixel{ font-family:'Silkscreen',monospace; }
+  .wrap{ max-width:820px; margin:0 auto; padding:2rem 4vw 4rem; }
+
+  /* title bar */
+  .titlebar{ background:var(--ink); color:var(--paper); border:2px solid var(--ink);
+             box-shadow:4px 4px 0 var(--shadow); display:flex; justify-content:space-between; align-items:center;
+             padding:.7rem 1rem; margin-bottom:0; }
+  .titlebar .logo{ font-family:'Silkscreen',monospace; font-size:.95rem; letter-spacing:.05em; }
+  .titlebar .logo b{ color:#E7C15A; }
+  .dots{ display:flex; gap:.4rem; }
+  .dots i{ width:11px; height:11px; border-radius:50%; display:block; background:#5a5749; }
+  .dots i:nth-child(1){ background:#C9584B; } .dots i:nth-child(2){ background:#D6A44C; } .dots i:nth-child(3){ background:#6E9A63; }
+
+  /* nav */
+  .menubar{ background:var(--panel); border:2px solid var(--ink); border-top:none; box-shadow:4px 4px 0 var(--shadow);
+            display:flex; gap:0; font-family:'IBM Plex Mono',monospace; font-size:.85rem; margin-bottom:2.2rem; }
+  .menubar a{ padding:.55rem 1.1rem; color:var(--ink); border-right:1px solid var(--line); }
+  .menubar a:hover{ background:var(--ink); color:var(--paper); text-decoration:none; }
+
+  /* panels */
+  .panel{ background:var(--panel); border:2px solid var(--ink); box-shadow:4px 4px 0 var(--shadow);
+          margin-bottom:1.6rem; }
+  .panel > .bar{ background:var(--ink); color:var(--paper); font-family:'IBM Plex Mono',monospace;
+                 font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; padding:.35rem .8rem; }
+  .panel > .in{ padding:1.4rem 1.5rem; }
+
+  .cols2{ display:grid; grid-template-columns:1.6fr 1fr; gap:1.6rem; }
+  @media(max-width:640px){ .cols2{ grid-template-columns:1fr; } }
+
+  h1{ font-family:'Silkscreen',monospace; font-size:clamp(1.5rem,5vw,2.3rem); line-height:1.1;
+      letter-spacing:.02em; margin-bottom:1rem; }
+  h1 .sub{ display:block; font-family:'IBM Plex Mono',monospace; font-size:.8rem; font-weight:400;
+           letter-spacing:.1em; color:var(--accent2); margin-top:.7rem; }
+  .lede{ font-size:1.02rem; max-width:52ch; color:#38352b; }
+
+  /* status list */
+  .status li{ list-style:none; font-family:'IBM Plex Mono',monospace; font-size:.85rem; padding:.35rem 0;
+              border-bottom:1px dotted var(--line); }
+  .status li:last-child{ border:none; }
+  .status .k{ color:var(--dim); }
+  .blink{ color:var(--accent2); animation:b 1.2s steps(1) infinite; }
+  @keyframes b{ 50%{ opacity:0; } }
+
+  /* research index */
+  .idx a.row{ display:flex; align-items:baseline; gap:.6rem; font-family:'IBM Plex Mono',monospace;
+              padding:.6rem .2rem; border-bottom:1px dotted var(--line); color:var(--ink); }
+  .idx a.row:last-child{ border:none; }
+  .idx a.row:hover{ background:#E6E1D2; text-decoration:none; }
+  .idx .no{ color:var(--accent); }
+  .idx .nm{ font-weight:600; }
+  .idx .dots-fill{ flex:1; border-bottom:1px dotted var(--line); transform:translateY(-3px); }
+  .idx .tag{ color:var(--dim); font-size:.8rem; }
+  .idx .row:hover .go{ color:var(--accent2); }
+  .go{ color:transparent; }
+
+  .marquee{ overflow:hidden; white-space:nowrap; font-family:'IBM Plex Mono',monospace; font-size:.78rem;
+            color:var(--dim); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+            padding:.5rem 0; margin:1.4rem 0; }
+  .marquee span{ display:inline-block; animation:scroll 22s linear infinite; }
+  @keyframes scroll{ from{ transform:translateX(30%); } to{ transform:translateX(-100%); } }
+
+  footer{ text-align:center; font-family:'IBM Plex Mono',monospace; font-size:.75rem; color:var(--dim); margin-top:2rem; }
+  .visitors{ display:inline-block; background:var(--ink); color:#6E9A63; padding:.15rem .6rem; letter-spacing:.2em;
+             font-size:.72rem; border-radius:3px; margin-top:.6rem; }
+</style>
+</head>
+<body>
+  <div class="wrap" id="top">
+    <div class="titlebar">
+      <span class="logo">ABHISHEK<b>.</b>S</span>
+      <span class="dots"><i></i><i></i><i></i></span>
+    </div>
+    <div class="menubar">
+      <a href="#top">home</a>
+      <a href="#work">work</a>
+      <a href="#about">about</a>
+      <a href="#contact">contact</a>
+      <a href="#">cv.pdf ↗</a>
+    </div>
+
+    <div class="cols2">
+      <div class="panel">
+        <div class="bar">welcome.html</div>
+        <div class="in">
+          <h1>Abhishek S<span class="sub">// control · robotics · reinforcement learning</span></h1>
+          <p class="lede">I build closed-loop systems for physical robot fleets — event-triggered controllers, multi-robot coordination, and the control theory that keeps them safe.<span class="blink">_</span></p>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="bar">status</div>
+        <div class="in">
+          <ul class="status">
+            <li><span class="k">loc &nbsp;»</span> IISc, Bengaluru</li>
+            <li><span class="k">role »</span> RBCCPS Intern</li>
+            <li><span class="k">since»</span> 2025 —</li>
+            <li><span class="k">goal »</span> MS/PhD · 2027</li>
+            <li><span class="k">stat »</span> <span class="blink">online</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="marquee"><span>★ now building: real-time fleet coordination ★ reading: event-triggered control ★ applying: fall 2027 ★ say hi ↓ ★ now building: real-time fleet coordination ★</span></div>
+
+    <div class="panel" id="work">
+      <div class="bar">research-index/</div>
+      <div class="in idx">
+        <a class="row" href="#"><span class="no">01</span><span class="nm">RouteRovers</span><span class="dots-fill"></span><span class="tag">multi-robot coord.</span><span class="go">→</span></a>
+        <a class="row" href="#"><span class="no">02</span><span class="nm">Event-Triggered Control</span><span class="dots-fill"></span><span class="tag">rl triggers</span><span class="go">→</span></a>
+        <a class="row" href="#"><span class="no">03</span><span class="nm">Path Curvature Control</span><span class="dots-fill"></span><span class="tag">DRDO · avs</span><span class="go">→</span></a>
+      </div>
+    </div>
+
+    <div class="cols2">
+      <div class="panel" id="about">
+        <div class="bar">about.txt</div>
+        <div class="in">
+          <p class="lede" style="font-size:.95rem">Control &amp; Robotics Intern at the Robert Bosch Centre for Cyber-Physical Systems (RBCCPS), IISc Bengaluru. I care about the seam where control theory meets learning — provably safe, empirically fast.</p>
+        </div>
+      </div>
+      <div class="panel" id="contact">
+        <div class="bar">contact</div>
+        <div class="in">
+          <ul class="status">
+            <li><a href="#">» email</a></li>
+            <li><a href="#">» github</a></li>
+            <li><a href="#">» scholar</a></li>
+            <li><a href="#">» linkedin</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="pixel" style="font-size:.7rem; color:var(--dim)">DIRECTION 03 · OLD-WEB HOMAGE</div>
+      <div class="visitors">VISITORS: 00000001</div><br>
+      © 2026 abhishek s · best viewed with taste · <a href="index.html">← back to all four</a>
+    </footer>
+  </div>
+</body>
+</html>

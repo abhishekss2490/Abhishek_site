@@ -1,0 +1,8 @@
+# Track only the portfolio site; everything else in this workspace is ignored.
+/*
+!/.gitignore
+!/README.md
+!/design-previews/
+
+# Within the site, exclude large shared media (compress/replace before hosting)
+design-previews/assets/experience/*.mp4

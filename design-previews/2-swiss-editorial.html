@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abhishek S — Swiss Editorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14130E; --paper:#FBFAF6; --dim:#6E6A5F; --line:#E3DFD3; --accent:#9A3B2E;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{ font-family:'Inter',system-ui,sans-serif; background:var(--paper); color:var(--ink);
+        line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .serif{ font-family:'Fraunces',Georgia,serif; }
+  a{ color:inherit; text-decoration:none; }
+  ::selection{ background:var(--ink); color:var(--paper); }
+  .wrap{ max-width:960px; margin:0 auto; padding:0 7vw; }
+
+  nav{ padding:2rem 0 0; }
+  .nav-in{ max-width:960px; margin:0 auto; padding:0 7vw; display:flex; justify-content:space-between; align-items:baseline; }
+  .brand{ font-family:'Fraunces',serif; font-size:1.3rem; font-weight:600; letter-spacing:-.01em; }
+  .nav-links{ display:flex; gap:2rem; font-size:.82rem; letter-spacing:.02em; }
+  .nav-links a{ color:var(--dim); }
+  .nav-links a:hover{ color:var(--accent); }
+
+  /* hero */
+  .hero{ padding:9vw 0 6vw; }
+  .eyebrow{ font-size:.75rem; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); margin-bottom:2rem; }
+  h1.display{ font-family:'Fraunces',serif; font-weight:400; font-size:clamp(2.8rem,8vw,6rem);
+              line-height:.98; letter-spacing:-.025em; margin-bottom:2rem; }
+  h1.display em{ font-style:italic; color:var(--accent); }
+  .hero p{ font-size:clamp(1.05rem,2vw,1.35rem); max-width:34ch; color:#3d3a30; }
+
+  .rule{ height:1px; background:var(--line); margin:0; }
+
+  section{ padding:6vw 0; }
+  .sec-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:3rem; }
+  .sec-head h2{ font-family:'Fraunces',serif; font-weight:500; font-size:1.6rem; letter-spacing:-.01em; }
+  .sec-head .idx{ font-size:.78rem; letter-spacing:.18em; text-transform:uppercase; color:var(--dim); }
+
+  /* work list */
+  .work a.item{ display:grid; grid-template-columns:3rem 1fr auto; gap:2rem; align-items:baseline;
+                padding:2rem 0; border-top:1px solid var(--line); transition:opacity .2s; }
+  .work a.item:last-child{ border-bottom:1px solid var(--line); }
+  .work .num{ font-family:'Fraunces',serif; font-size:1.1rem; color:var(--accent); }
+  .work .ttl{ font-family:'Fraunces',serif; font-size:clamp(1.5rem,3vw,2.2rem); font-weight:400;
+              letter-spacing:-.02em; line-height:1.05; }
+  .work .desc{ color:var(--dim); font-size:.95rem; margin-top:.5rem; max-width:44ch; }
+  .work .meta{ font-size:.82rem; color:var(--dim); text-align:right; white-space:nowrap; }
+  .work a.item:hover .ttl{ color:var(--accent); }
+
+  /* about columns */
+  .cols{ display:grid; grid-template-columns:1fr 1fr; gap:5rem; }
+  .cols p{ font-size:1.05rem; color:#3d3a30; margin-bottom:1.2rem; max-width:42ch; }
+  .facts dt{ font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin-top:1.4rem; }
+  .facts dd{ font-family:'Fraunces',serif; font-size:1.15rem; }
+  @media(max-width:680px){ .cols{ grid-template-columns:1fr; gap:2.5rem; } }
+
+  /* contact */
+  .contact h2{ font-family:'Fraunces',serif; font-weight:400; font-size:clamp(2rem,5vw,3.4rem);
+               letter-spacing:-.02em; line-height:1.05; margin-bottom:2rem; }
+  .contact h2 a{ border-bottom:2px solid var(--accent); }
+  .contact h2 a:hover{ color:var(--accent); }
+  .social{ display:flex; gap:2.4rem; font-size:.9rem; color:var(--dim); margin-top:1rem; }
+  .social a:hover{ color:var(--ink); }
+  footer{ padding:3rem 0 4rem; display:flex; justify-content:space-between; font-size:.78rem; color:var(--dim); }
+  .tag{ font-family:'Fraunces',serif; font-style:italic; }
+</style>
+</head>
+<body>
+  <nav><div class="nav-in">
+    <a class="brand" href="#top">Abhishek S.</a>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div></nav>
+
+  <div class="wrap" id="top">
+    <header class="hero">
+      <div class="eyebrow">Robotics · Control · Reinforcement Learning</div>
+      <h1 class="display">Systems that are<br><em>provably safe</em><br>and empirically fast.</h1>
+      <p>I work on the seam where control theory meets learning — from event-triggered controllers to real-time robot fleets.</p>
+    </header>
+  </div>
+  <div class="rule"></div>
+
+  <div class="wrap">
+    <section class="work" id="work">
+      <div class="sec-head"><h2>Selected Work</h2><span class="idx">01 — 03</span></div>
+      <a class="item" href="#">
+        <span class="num">01</span>
+        <span><span class="ttl">RouteRovers</span><div class="desc">Real-time closed-loop coordination for physical differential-drive robot fleets.</div></span>
+        <span class="meta">IISc · 2025</span>
+      </a>
+      <a class="item" href="#">
+        <span class="num">02</span>
+        <span><span class="ttl">Event-Triggered Control</span><div class="desc">Learning state-dependent trigger thresholds with RL under a Lyapunov safety bound.</div></span>
+        <span class="meta">IISc · 2025</span>
+      </a>
+      <a class="item" href="#">
+        <span class="num">03</span>
+        <span><span class="ttl">Path Curvature Control</span><div class="desc">Curvature-constrained path control for autonomous ground vehicles.</div></span>
+        <span class="meta">DRDO · 2024</span>
+      </a>
+    </section>
+  </div>
+  <div class="rule"></div>
+
+  <div class="wrap">
+    <section id="about">
+      <div class="sec-head"><h2>About</h2><span class="idx">Bio</span></div>
+      <div class="cols">
+        <div>
+          <p>I'm a Control &amp; Robotics Intern at the Robert Bosch Centre for Cyber-Physical Systems, IISc Bengaluru.</p>
+          <p>My work lives where rigorous control guarantees meet the messiness of learning — building things that hold up on real hardware, not just in simulation.</p>
+        </div>
+        <dl class="facts">
+          <dt>Currently</dt><dd>RBCCPS, IISc Bengaluru</dd>
+          <dt>Seeking</dt><dd>MS / PhD, Fall 2027</dd>
+          <dt>Focus</dt><dd>Control · Multi-agent RL</dd>
+        </dl>
+      </div>
+    </section>
+  </div>
+  <div class="rule"></div>
+
+  <div class="wrap">
+    <section class="contact" id="contact">
+      <h2>Let's talk — <a href="#">hello@abhishek.s</a></h2>
+      <div class="social">
+        <a href="#">GitHub</a><a href="#">Google Scholar</a><a href="#">LinkedIn</a><a href="#">CV (PDF)</a>
+      </div>
+    </section>
+    <footer>
+      <span class="tag">Direction 02 — Swiss Editorial</span>
+      <a href="index.html">← back to all four</a>
+    </footer>
+  </div>
+</body>
+</html>
