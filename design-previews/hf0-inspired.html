@@ -44,8 +44,12 @@
   #ghost{ position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; opacity:0; transition:opacity .55s ease; }
   #ghost.show{ opacity:1; }
   .view{ position:absolute; inset:0; display:none; padding:0 4vw 2vw; overflow:auto; z-index:1; }
-  .view.on{ display:flex; animation:fade .32s ease; }
-  @keyframes fade{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;} }
+  .view.on{ display:flex; }
+  .view.on .st{ animation:settle .6s cubic-bezier(.22,1,.36,1) both; animation-delay:calc(var(--i,0)*40ms); }
+  @keyframes settle{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:none;} }
+  .view.on.out{ animation:leave .14s ease both; pointer-events:none; }
+  @keyframes leave{ to{opacity:0; transform:translateY(-6px);} }
+  @media (prefers-reduced-motion:reduce){ .view.on .st, .view.on.out{ animation:none; } }
   .inner{ width:100%; max-width:1040px; margin:auto; }
   .label{ font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.24em; text-transform:uppercase; color:var(--dim); margin-bottom:1.5rem; }
   .big{ font-size:clamp(1.5rem,3vw,2.2rem); font-weight:600; letter-spacing:-.025em; line-height:1.15; max-width:22ch; }
@@ -210,7 +214,7 @@
         <a data-go="experience">Experience</a>
         <a data-go="education">Education &amp; Skills</a>
         <a data-go="beyond">Beyond</a>
-        <a class="cv" href="#">CV ↗</a>
+        <a class="cv" href="../assets/Abhishek_S_CV.pdf" target="_blank">CV ↗</a>
       </div>
     </nav>
 
@@ -221,7 +225,7 @@
         <div class="idcard">
           <div class="idphoto">
             <div class="img">
-              <img src="assets/headshot.jpg" alt="Abhishek S" onerror="this.remove(); document.getElementById('ph').hidden=false;">
+              <img src="../assets/headshot.jpg" alt="Abhishek S" onerror="this.remove(); document.getElementById('ph').hidden=false;">
               <svg id="ph" hidden viewBox="0 0 100 108" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="50" cy="38" r="22" fill="#2b2820"/><path d="M12 108 C12 74 30 64 50 64 C70 64 88 74 88 108 Z" fill="#2b2820"/>
               </svg>
@@ -230,10 +234,10 @@
           <div class="eyebrow">Control · Robotics · Reinforcement Learning</div>
           <h1>Abhishek S</h1>
           <div class="role">Control &amp; Robotics Intern · RBCCPS, IISc Bengaluru</div>
-          <p class="idbio">I build <b>closed-loop systems for physical robot fleets</b> — event-triggered controllers, multi-robot coordination, and the control theory that keeps them provably safe.</p>
+          <p class="idbio">I work at the boundary between <b>control theory and reinforcement learning</b>, making learning-based robot autonomy safe enough to trust and fast enough to run on real hardware. Four first-authored workshop papers at ICRA and RSS 2026, and a robotics startup along the way.</p>
           <p class="obj"><span class="d">◆</span> Applying for <b>MS / PhD, Fall 2027</b></p>
           <div class="idlinks">
-            <a href="#">Email</a><a href="#">GitHub</a><a href="#">Scholar</a><a href="#">LinkedIn</a><a href="#">CV</a>
+            <a href="mailto:abhishekss6363@gmail.com">Email</a><a href="https://github.com/abhishekss2490" target="_blank" rel="noopener">GitHub</a><a href="https://scholar.google.com/citations?user=4DxQJjsAAAAJ" target="_blank" rel="noopener">Scholar</a><a href="https://www.linkedin.com/in/abhishek---s/" target="_blank" rel="noopener">LinkedIn</a><a href="../assets/Abhishek_S_CV.pdf" target="_blank">CV</a>
           </div>
         </div>
         <div class="sphere-cell">
@@ -308,7 +312,7 @@
           <div class="proj-list">
             <div class="label">Projects</div>
 
-            <div class="prow active" data-title="EdgeLIO" data-type="img" data-src="assets/projects/edgelio.jpg">
+            <div class="prow active" data-title="EdgeLIO" data-type="img" data-src="../assets/projects/edgelio.jpg">
               <span class="pnum">01</span>
               <div class="pinfo">
                 <div class="prow-head"><span class="pn">EdgeLIO</span><span class="ploc">PES University, Bangalore</span></div>
@@ -318,7 +322,7 @@
               </div>
             </div>
 
-            <div class="prow" data-title="Event-Triggered Lyapunov-Safe Reinforcement Learning" data-type="img" data-src="assets/projects/etc-rl.jpg">
+            <div class="prow" data-title="Event-Triggered Lyapunov-Safe Reinforcement Learning" data-type="img" data-src="../assets/projects/etc-rl.jpg">
               <span class="pnum">02</span>
               <div class="pinfo">
                 <div class="prow-head"><span class="pn">Event-Triggered Lyapunov-Safe Reinforcement Learning</span><span class="ploc">IISc, Bangalore</span></div>
@@ -327,7 +331,7 @@
               </div>
             </div>
 
-            <div class="prow" data-title="SceneForge" data-type="img" data-src="assets/projects/sceneforge.jpg">
+            <div class="prow" data-title="SceneForge" data-type="img" data-src="../assets/projects/sceneforge.jpg">
               <span class="pnum">03</span>
               <div class="pinfo">
                 <div class="prow-head"><span class="pn">SceneForge</span><span class="ploc">PES University, Bangalore</span></div>
@@ -363,11 +367,11 @@
             <div class="exp-links"><a class="exp-code" href="https://github.com/abhishekss2490/MAPS" target="_blank" rel="noopener">Code ↗</a></div>
             <div class="exp-media">
               <figure class="clip">
-                <div class="clip-frame"><video src="assets/experience/iisc-4robots.mp4" controls muted playsinline preload="metadata"></video></div>
+                <div class="clip-frame"><video src="../assets/experience/iisc-4robots.mp4" controls muted playsinline preload="metadata"></video></div>
                 <figcaption>4 robots — live OptiTrack run</figcaption>
               </figure>
               <figure class="clip">
-                <div class="clip-frame"><video src="assets/experience/iisc-7robots.mp4" controls muted playsinline preload="metadata"></video></div>
+                <div class="clip-frame"><video src="../assets/experience/iisc-7robots.mp4" controls muted playsinline preload="metadata"></video></div>
                 <figcaption>7 robots — coordinated paths</figcaption>
               </figure>
             </div>
@@ -429,7 +433,7 @@
 
     <div class="foot">
       <span id="stat">Bengaluru, India</span>
-      <span>© 2026 Abhishek S · <a href="#">hello@abhishek.s</a></span>
+      <span>© 2026 Abhishek S · <a href="mailto:abhishekss6363@gmail.com">abhishekss6363@gmail.com</a></span>
     </div>
   </div>
 
@@ -437,12 +441,23 @@
     /* ---- view switching ---- */
     const views=[...document.querySelectorAll('.view')];
     const navlinks=[...document.querySelectorAll('.links a[data-go]')];
+    /* tag each section's blocks with their arrival order for the settle cascade */
+    views.forEach(v=>{
+      let wrap=v; while(wrap.children.length===1) wrap=wrap.children[0];
+      const kids=[...wrap.children].flatMap(k=>k.classList.contains('proj-list')?[...k.children]:[k]);
+      kids.forEach((el,i)=>{ el.classList.add('st'); el.style.setProperty('--i', Math.min(i,7)); });
+    });
+    let swapTimer=null;
     function go(id){
-      views.forEach(v=>v.classList.toggle('on', v.id===id));
+      const next=document.getElementById(id);
+      const cur=views.find(v=>v.classList.contains('on') && !v.classList.contains('out'));
+      if(!next || cur===next) return;
       navlinks.forEach(a=>a.setAttribute('data-on', a.dataset.go===id));
       document.getElementById('stat').textContent = id==='home' ? 'Bengaluru, India' : '▪ '+id;
       document.getElementById('ghost').classList.toggle('show', id!=='home');
-      const on=document.getElementById(id); if(on) on.scrollTop=0;
+      clearTimeout(swapTimer);
+      const swap=()=>{ views.forEach(v=>v.classList.remove('on','out')); next.classList.add('on'); next.scrollTop=0; };
+      if(cur){ cur.classList.add('out'); swapTimer=setTimeout(swap,140); } else swap();
     }
     document.querySelectorAll('[data-go]').forEach(el=> el.addEventListener('click',()=>go(el.dataset.go)));
 
@@ -475,7 +490,7 @@
     const mk=document.getElementById('mark'), mctx=mk.getContext('2d');
     const gh=document.getElementById('ghost'), gctx=gh.getContext('2d');
     let CSS, DPR, MK, GW, GH;
-    const sheet=new Image(); sheet.src='assets/sphere_saffron.png';
+    const sheet=new Image(); sheet.src='../assets/sphere_saffron.png';
     const FRAMES=27, FW=340, FPS=25;
     function resize(){
       DPR=Math.min(2, window.devicePixelRatio||1);

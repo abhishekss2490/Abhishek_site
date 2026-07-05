@@ -2,7 +2,6 @@
 /*
 !/.gitignore
 !/README.md
+!/index.html
+!/assets/
 !/design-previews/
-
-# Within the site, exclude large shared media (compress/replace before hosting)
-design-previews/assets/experience/*.mp4

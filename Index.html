@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abhishek S</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;450;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --milk:#FCFBF7; --ink:#221F18; --soft:#5C574B; --dim:#9B9384;
+    --line:#E8E1D3; --saffron:#FC8019; --saffron-deep:#E86E0B; --wash:#FFF1E4;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+  body{ font-family:'Inter',system-ui,sans-serif; background:var(--milk); color:var(--ink);
+        line-height:1.6; -webkit-font-smoothing:antialiased; overflow:hidden; }
+  a{ color:inherit; text-decoration:none; }
+  .mono{ font-family:'IBM Plex Mono',monospace; }
+  em{ color:var(--saffron-deep); font-style:normal; }
+  ::selection{ background:var(--saffron); color:#fff; }
+  body::before{ content:""; position:fixed; inset:0; pointer-events:none; z-index:9998;
+    background:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='120'%20height='120'%3E%3Cfilter%20id='n'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.85'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3C/filter%3E%3Crect%20width='100%25'%20height='100%25'%20filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity:.05; mix-blend-mode:multiply; }
+
+  .app{ height:100vh; display:flex; flex-direction:column; }
+
+  /* ---- minimal nav ---- */
+  nav{ flex:none; display:flex; align-items:center; justify-content:space-between; padding:1.5rem 3.5vw; gap:1.5rem; }
+  nav .name{ font-weight:600; letter-spacing:-.01em; font-size:1rem; cursor:pointer; white-space:nowrap; display:inline-flex; align-items:center; gap:.5rem; }
+  #mark{ width:24px; height:24px; display:block; }
+  nav .name .d{ color:var(--saffron); }
+  nav .links{ display:flex; align-items:center; gap:1.35rem; flex-wrap:wrap; justify-content:flex-end; }
+  nav .links a{ font-family:'IBM Plex Mono',monospace; font-size:.76rem; letter-spacing:.01em; color:var(--soft); cursor:pointer; white-space:nowrap; }
+  nav .links a:hover{ color:var(--ink); }
+  nav .links a[data-on="true"]{ color:var(--ink); }
+  nav .links a[data-on="true"]::after{ content:""; display:block; height:2px; background:var(--saffron); margin-top:3px; }
+  nav .cv{ font-family:'IBM Plex Mono',monospace; font-size:.74rem; color:#fff; background:var(--saffron); padding:.5rem .9rem; border-radius:2px; }
+  nav .cv:hover{ background:var(--saffron-deep); }
+
+  /* ---- stage / views ---- */
+  .stage{ flex:1; min-height:0; position:relative; }
+  #ghost{ position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; opacity:0; transition:opacity .55s ease; }
+  #ghost.show{ opacity:1; }
+  .view{ position:absolute; inset:0; display:none; padding:0 4vw 2vw; overflow:auto; z-index:1; }
+  .view.on{ display:flex; }
+  .view.on .st{ animation:settle .6s cubic-bezier(.22,1,.36,1) both; animation-delay:calc(var(--i,0)*40ms); }
+  @keyframes settle{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:none;} }
+  .view.on.out{ animation:leave .14s ease both; pointer-events:none; }
+  @keyframes leave{ to{opacity:0; transform:translateY(-6px);} }
+  @media (prefers-reduced-motion:reduce){ .view.on .st, .view.on.out{ animation:none; } }
+  .inner{ width:100%; max-width:1040px; margin:auto; }
+  .label{ font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.24em; text-transform:uppercase; color:var(--dim); margin-bottom:1.5rem; }
+  .big{ font-size:clamp(1.5rem,3vw,2.2rem); font-weight:600; letter-spacing:-.025em; line-height:1.15; max-width:22ch; }
+  .big em{ color:var(--saffron-deep); }
+
+  /* ---------- HOME ---------- */
+  #home.on{ display:grid; grid-template-columns:minmax(320px,440px) 1fr; gap:4vw; align-items:center; padding:0 5vw; text-align:left; overflow:hidden; }
+  .idcard{ max-width:460px; margin-top:-2.2rem; }
+  .idphoto{ width:184px; border:1px solid rgba(34,31,24,.20); border-radius:4px; overflow:hidden; box-shadow:0 8px 22px rgba(38,34,27,.13); margin-bottom:1.5rem; }
+  .idphoto .img{ aspect-ratio:1/1; overflow:hidden; display:flex; align-items:flex-end; justify-content:center; background:linear-gradient(180deg,#F3EEE3,#E7E0D2); }
+  .idphoto img{ width:100%; height:100%; object-fit:cover; object-position:50% 12%; display:block; }
+  .idphoto svg{ width:74%; opacity:.45; }
+  .eyebrow{ font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.24em; text-transform:uppercase; color:var(--saffron-deep); margin-bottom:.55rem; }
+  #home h1{ font-size:clamp(2rem,3.6vw,3rem); font-weight:600; letter-spacing:-.03em; line-height:1; }
+  .role{ font-family:'IBM Plex Mono',monospace; font-size:.82rem; color:var(--soft); margin:.75rem 0 1.1rem; }
+  .idbio{ color:var(--soft); font-size:1.02rem; max-width:35ch; }
+  .idbio b{ color:var(--ink); font-weight:600; }
+  .obj{ margin-top:1rem; font-size:.92rem; color:var(--ink); }
+  .obj .d{ color:var(--saffron); }
+  .idlinks{ display:flex; flex-wrap:wrap; align-items:center; gap:.75rem; margin-top:1.6rem; }
+  .idlinks a{ font-family:'IBM Plex Mono',monospace; font-size:.78rem; color:var(--soft); }
+  .idlinks a:hover{ color:var(--ink); }
+  .idlinks a.cvbtn{ color:#fff; background:var(--saffron); padding:.5rem 1rem; border-radius:2px; }
+  .idlinks a.cvbtn:hover{ background:var(--saffron-deep); }
+  .sphere-cell{ display:flex; align-items:center; justify-content:center; height:100%; }
+  #swarm{ width:min(560px,66vh); height:min(560px,66vh); display:block; margin-top:-1.4rem; }
+
+  /* ---------- RESEARCH ---------- */
+  #research .inner{ display:grid; grid-template-columns:1.2fr 1fr; gap:5vw; align-items:center; }
+  .themes{ display:flex; flex-wrap:wrap; gap:.55rem; margin-top:1.6rem; }
+  .themes span{ font-family:'IBM Plex Mono',monospace; font-size:.74rem; color:var(--soft); border:1px solid var(--line); padding:.3rem .7rem; border-radius:2px; }
+  .qbox{ background:var(--wash); border:1px solid #F6D9BE; border-radius:6px; padding:1.3rem 1.4rem; }
+  .qbox .k{ font-family:'IBM Plex Mono',monospace; font-size:.64rem; letter-spacing:.16em; text-transform:uppercase; color:var(--saffron-deep); margin-bottom:.7rem; }
+  .qbox li{ list-style:none; padding:.5rem 0; color:var(--soft); font-size:.95rem; }
+  .qbox li::before{ content:"→ "; color:var(--saffron); }
+
+  /* ---------- PUBLICATIONS ---------- */
+  #publications .inner{ max-width:900px; }
+  .pub{ display:grid; grid-template-columns:auto 1fr auto; gap:1.4rem; align-items:start; padding:1.3rem 0; border-bottom:1px solid var(--line); }
+  .pub:first-of-type{ border-top:1px solid var(--line); }
+  .badge{ font-family:'IBM Plex Mono',monospace; font-size:.58rem; letter-spacing:.06em; text-transform:uppercase; color:#fff; background:var(--saffron); padding:.26rem .5rem; white-space:nowrap; } .badge.wip{ background:var(--dim); }
+  .pub .t{ font-family:'IBM Plex Mono',ui-monospace,monospace; font-weight:600; font-size:.97rem; line-height:1.38; letter-spacing:-.01em; }
+  .pub .au{ color:var(--dim); font-size:.9rem; margin:.2rem 0; } .pub .au .me{ color:var(--ink); font-weight:600; }
+  .pub .where{ color:var(--dim); font-size:.86rem; font-style:italic; }
+  .btns{ display:flex; gap:.4rem; } .btn{ font-family:'IBM Plex Mono',monospace; font-size:.64rem; letter-spacing:.05em; text-transform:uppercase; border:1.3px solid var(--line); background:#fff; color:var(--ink); padding:.24rem .55rem; }
+  .btn:hover{ border-color:var(--saffron); background:var(--saffron); color:#fff; }
+  .pub-note{ margin-top:1.4rem; padding-top:1.1rem; border-top:1px solid var(--line); font-family:'IBM Plex Mono',monospace; font-size:.75rem; color:var(--soft); line-height:1.75; max-width:80ch; }
+  .pub-note .k{ color:var(--saffron-deep); font-weight:600; margin-right:.3rem; }
+  .pub-note b{ color:var(--ink); font-weight:600; }
+  .pub-note .v{ color:var(--saffron-deep); }
+
+  /* ---------- PROJECTS: index + hover-to-preview ---------- */
+  #projects .proj-wrap{ display:grid; grid-template-columns:1.32fr 0.82fr; gap:3.5vw; align-items:center; height:100%; }
+  .proj-list .label{ margin-bottom:1.1rem; }
+  .prow{ display:grid; grid-template-columns:1.8rem 1fr; gap:.7rem; align-items:baseline; padding:1rem 0; border-top:1px solid var(--line); cursor:pointer; transition:padding-left .18s ease; }
+  .proj-list .prow:last-of-type{ border-bottom:1px solid var(--line); }
+  .prow .pnum{ font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--dim); }
+  .pinfo{ display:flex; flex-direction:column; gap:.28rem; }
+  .pn{ font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:1.06rem; letter-spacing:-.01em; color:var(--ink); }
+  .pd{ color:var(--soft); font-size:.88rem; max-width:64ch; margin-top:.3rem; }
+  .pd a{ color:var(--saffron-deep); border-bottom:1px solid var(--saffron); }
+  .pd a:hover{ color:var(--ink); border-color:var(--ink); }
+  .prow-head{ display:flex; justify-content:space-between; align-items:baseline; gap:1rem; }
+  .prow-sub{ display:flex; justify-content:space-between; align-items:baseline; gap:1rem; }
+  .pmeta{ font-family:'IBM Plex Mono',monospace; font-size:.65rem; text-transform:uppercase; letter-spacing:.06em; color:var(--saffron-deep); white-space:nowrap; }
+  .pdate{ font-family:'IBM Plex Mono',monospace; font-size:.65rem; color:var(--dim); white-space:nowrap; text-align:right; }
+  .ploc{ font-family:'IBM Plex Mono',monospace; font-size:.65rem; color:var(--soft); white-space:nowrap; text-align:right; }
+  .plinks{ display:flex; gap:.9rem; align-items:center; margin-top:.1rem; }
+  .plinks a{ font-family:'IBM Plex Mono',monospace; font-size:.66rem; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); border-bottom:1px solid var(--line); }
+  .plinks a:hover{ color:var(--saffron-deep); border-color:var(--saffron); }
+  .prow:hover, .prow.active{ padding-left:.55rem; }
+  .prow.active .pn{ color:var(--saffron-deep); }
+  .prow.active .pnum{ color:var(--saffron); }
+  .pv-frame{ border:1.4px solid var(--ink); border-radius:6px; overflow:hidden; box-shadow:0 12px 34px rgba(38,34,27,.14); background:#fff; }
+  .pv-cap{ background:var(--ink); color:var(--milk); font-family:'IBM Plex Mono',monospace; font-size:.6rem; letter-spacing:.1em; padding:.38rem .65rem; display:flex; justify-content:space-between; }
+  .pv-cap .x{ color:var(--saffron); }
+  .pv-media{ position:relative; aspect-ratio:16/10; background:linear-gradient(135deg,#F3EEE3,#E7E0D2); overflow:hidden; }
+  .pv-media > *{ position:absolute; inset:0; width:100%; height:100%; }
+  .pv-ph{ display:flex; align-items:center; justify-content:center; text-align:center; padding:1.6rem; position:relative; overflow:hidden;
+          background:radial-gradient(circle at 50% 44%, #FFF3E7 0%, #EFE6D4 80%); }
+  .pv-ph::before{ content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:min(52%,220px); aspect-ratio:1; border-radius:50%;
+          border:1.5px solid rgba(252,128,25,.32);
+          box-shadow:0 0 0 15px rgba(252,128,25,.08), 0 0 0 32px rgba(252,128,25,.05), 0 0 0 52px rgba(252,128,25,.03); }
+  .pv-ph .nm{ position:relative; z-index:1; font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:1.05rem; letter-spacing:-.01em; color:var(--ink); max-width:20ch; line-height:1.35; }
+  #pvImg,#pvVid{ object-fit:cover; opacity:0; transition:opacity .35s ease; z-index:2; }
+
+  /* ---------- EXPERIENCE + EDUCATION shared rows ---------- */
+  .split2{ display:grid; grid-template-columns:1fr 1fr; gap:5vw; align-items:start; }
+  .subhead{ font-family:'IBM Plex Mono',monospace; font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; color:var(--saffron-deep); margin-bottom:1rem; }
+  .r{ display:grid; grid-template-columns:5.5rem 1fr; gap:1.1rem; padding:.85rem 0; border-bottom:1px dotted var(--line); }
+  .r:last-child{ border:none; } .r .yr{ font-family:'IBM Plex Mono',monospace; font-size:.78rem; color:var(--saffron-deep); }
+  .r .role2{ font-weight:600; } .r .role2 small{ display:block; font-weight:400; color:var(--dim); font-size:.86rem; }
+  .blist li{ list-style:none; padding:.45rem 0 .45rem 1.1rem; position:relative; color:var(--soft); font-size:.95rem; }
+  .blist li::before{ content:"›"; color:var(--saffron); position:absolute; left:0; }
+  .exp{ padding:1.3rem 0; border-top:1px solid var(--line); }
+  #experience .exp:last-child{ border-bottom:1px solid var(--line); }
+  .exp-head{ display:flex; justify-content:space-between; align-items:baseline; gap:1.2rem; }
+  .exp-org{ font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:1.12rem; letter-spacing:-.01em; color:var(--ink); }
+  .exp-date{ font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:var(--dim); white-space:nowrap; }
+  .exp-sub{ display:flex; justify-content:space-between; align-items:baseline; gap:1.2rem; margin-top:.12rem; }
+  .exp-role{ font-family:'IBM Plex Mono',monospace; font-size:.68rem; text-transform:uppercase; letter-spacing:.06em; color:var(--saffron-deep); }
+  .exp-loc{ font-family:'IBM Plex Mono',monospace; font-size:.68rem; color:var(--soft); white-space:nowrap; }
+  .exp-desc{ color:var(--soft); font-size:.9rem; max-width:82ch; margin-top:.5rem; }
+  .exp-desc a{ color:var(--saffron-deep); border-bottom:1px solid var(--saffron); }
+  .exp-media{ display:grid; grid-template-columns:1fr 1fr; gap:1.3rem; margin-top:1.2rem; max-width:840px; }
+  .clip{ margin:0; }
+  .clip-frame{ border:1.4px solid var(--ink); border-radius:6px; overflow:hidden; box-shadow:0 8px 20px rgba(38,34,27,.13); background:#000; aspect-ratio:16/10; }
+  .clip-frame video{ width:100%; height:100%; object-fit:contain; display:block; background:#000; }
+  .clip figcaption{ font-family:'IBM Plex Mono',monospace; font-size:.66rem; color:var(--dim); margin-top:.5rem; letter-spacing:.04em; }
+  .exp-links{ margin-top:.9rem; }
+  .exp-code{ font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--ink); border:1.4px solid var(--ink); border-radius:3px; padding:.35rem .8rem; }
+  .exp-code:hover{ background:var(--saffron); color:#fff; border-color:var(--saffron-deep); text-decoration:none; }
+  .edu{ padding:1rem 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .edu-course{ color:var(--soft); font-size:.86rem; margin-top:.8rem; max-width:74ch; }
+  .edu-course b{ color:var(--saffron-deep); font-weight:600; }
+  @media(max-width:640px){ .exp-media{ grid-template-columns:1fr; } }
+
+  /* ---------- SKILLS ---------- */
+  .skillgrid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem 3vw; }
+  .sgroup h4{ font-family:'IBM Plex Mono',monospace; font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink); margin-bottom:.7rem; padding-bottom:.5rem; border-bottom:1px solid var(--line); }
+  .sgroup .tags{ display:flex; flex-wrap:wrap; gap:.4rem; }
+  .sgroup .tags span{ font-family:'IBM Plex Mono',monospace; font-size:.73rem; color:var(--soft); background:#fff; border:1px solid var(--line); padding:.26rem .6rem; border-radius:2px; }
+
+  /* ---------- BEYOND ---------- */
+  .beyond-intro{ color:var(--soft); font-size:1.05rem; max-width:56ch; margin-bottom:2rem; }
+  .beyond-intro b{ color:var(--ink); }
+  #beyond .grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1.2rem; }
+  .bcard{ border:1px solid var(--line); border-radius:5px; background:#fff; padding:1.1rem 1.1rem; }
+  .bcard .k{ font-family:'IBM Plex Mono',monospace; font-size:.66rem; letter-spacing:.12em; text-transform:uppercase; color:var(--saffron-deep); margin-bottom:.8rem; display:flex; align-items:center; gap:.4rem; }
+  .bcard .k::before{ content:""; width:7px; height:7px; border:1.6px solid var(--saffron); border-radius:50%; display:block; }
+  .bcard li{ list-style:none; padding:.32rem 0; color:var(--soft); font-size:.9rem; border-bottom:1px dotted var(--line); }
+  .bcard li:last-child{ border:none; }
+  .bcard li .ph{ color:var(--dim); font-style:italic; }
+
+  /* footer */
+  .foot{ flex:none; display:flex; justify-content:space-between; align-items:center; padding:.9rem 3.5vw; font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:var(--dim); }
+  .foot a:hover{ color:var(--ink); }
+
+  @media(max-width:900px){
+    body{ overflow:auto; } .app{ height:auto; min-height:100vh; }
+    .view{ position:static; display:none; padding:2rem 6vw; overflow:visible; } .view.on{ display:flex; }
+    #home.on{ grid-template-columns:1fr; gap:2.2rem; padding:2rem 6vw; overflow:visible; }
+    #research .inner,.split2{ grid-template-columns:1fr; gap:2rem; }
+    .skillgrid{ grid-template-columns:1fr 1fr; }
+    #projects .proj-wrap{ grid-template-columns:1fr; gap:2rem; }
+    #beyond .grid{ grid-template-columns:1fr 1fr; }
+    #swarm{ width:min(380px,72vw); height:min(380px,72vw); }
+    #ghost{ display:none; }
+    nav{ flex-wrap:wrap; }
+  }
+  @media(max-width:560px){ .skillgrid,#beyond .grid{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+  <div class="app">
+    <nav>
+      <div class="name" data-go="home"><canvas id="mark" width="48" height="48" aria-hidden="true"></canvas>Abhishek S<span class="d">.</span></div>
+      <div class="links">
+        <a data-go="research">Research</a>
+        <a data-go="publications">Publications</a>
+        <a data-go="projects">Projects</a>
+        <a data-go="experience">Experience</a>
+        <a data-go="education">Education &amp; Skills</a>
+        <a data-go="beyond">Beyond</a>
+        <a class="cv" href="assets/Abhishek_S_CV.pdf" target="_blank">CV ↗</a>
+      </div>
+    </nav>
+
+    <div class="stage">
+      <canvas id="ghost" aria-hidden="true"></canvas>
+      <!-- HOME -->
+      <section class="view on" id="home">
+        <div class="idcard">
+          <div class="idphoto">
+            <div class="img">
+              <img src="assets/headshot.jpg" alt="Abhishek S" onerror="this.remove(); document.getElementById('ph').hidden=false;">
+              <svg id="ph" hidden viewBox="0 0 100 108" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="38" r="22" fill="#2b2820"/><path d="M12 108 C12 74 30 64 50 64 C70 64 88 74 88 108 Z" fill="#2b2820"/>
+              </svg>
+            </div>
+          </div>
+          <div class="eyebrow">Control · Robotics · Reinforcement Learning</div>
+          <h1>Abhishek S</h1>
+          <div class="role">Control &amp; Robotics Intern · RBCCPS, IISc Bengaluru</div>
+          <p class="idbio">I work at the boundary between <b>control theory and reinforcement learning</b>, making learning-based robot autonomy safe enough to trust and fast enough to run on real hardware. Four first-authored workshop papers at ICRA and RSS 2026, and a robotics startup along the way.</p>
+          <p class="obj"><span class="d">◆</span> Applying for <b>MS / PhD, Fall 2027</b></p>
+          <div class="idlinks">
+            <a href="mailto:abhishekss6363@gmail.com">Email</a><a href="https://github.com/abhishekss2490" target="_blank" rel="noopener">GitHub</a><a href="https://scholar.google.com/citations?user=4DxQJjsAAAAJ" target="_blank" rel="noopener">Scholar</a><a href="https://www.linkedin.com/in/abhishek---s/" target="_blank" rel="noopener">LinkedIn</a><a href="assets/Abhishek_S_CV.pdf" target="_blank">CV</a>
+          </div>
+        </div>
+        <div class="sphere-cell">
+          <canvas id="swarm" width="440" height="440" aria-label="rotating sphere animation"></canvas>
+        </div>
+      </section>
+
+      <!-- RESEARCH -->
+      <section class="view" id="research">
+        <div class="inner">
+          <div>
+            <div class="label">Research — Thesis</div>
+            <h2 class="big">I work where <em>control theory meets learning</em> — provably safe, empirically fast, on real hardware.</h2>
+            <div class="themes"><span>event-triggered control</span><span>multi-agent RL</span><span>safe learning-based control</span><span>robot fleets</span><span>hybrid systems</span></div>
+          </div>
+          <div class="qbox">
+            <div class="k">Questions I'm chasing</div>
+            <ul>
+              <li>Can we <em>learn</em> an event-trigger's parameters without breaking its stability guarantees?</li>
+              <li>How do fleets of real robots coordinate in real time under conflict?</li>
+              <li>Where can learning safely replace hand-tuned control?</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- PUBLICATIONS -->
+      <section class="view" id="publications">
+        <div class="inner">
+          <div class="label">Publications</div>
+          <p class="mono" style="font-size:.78rem; color:var(--soft); margin-top:-.85rem; margin-bottom:1.3rem;">Four <b style="color:var(--ink)">first-authored</b> workshop papers across ICRA 2026 &amp; RSS 2026.</p>
+
+          <div class="pub">
+            <span class="badge">ICRA 2026</span>
+            <div><div class="t">SENTINEL: Teaching Robots to Say &ldquo;I Don't Know&rdquo; — Uncertainty-Aware SLAM</div>
+              <div class="au"><span class="me">Abhishek S</span>, Badrikanath Praharaj, Sreeram MV</div>
+              <div class="where">Uncertainty in Open-World Robotics (UOWR) Workshop, ICRA 2026 · Accepted</div></div>
+            <div class="btns"><a class="btn" href="https://arxiv.org/abs/2606.04853">arXiv</a></div>
+          </div>
+
+          <div class="pub">
+            <span class="badge">ICRA 2026</span>
+            <div><div class="t">CADENCE: Predicting Realized MAPF Execution Time Beyond Sum of Costs</div>
+              <div class="au"><span class="me">Abhishek S</span>, Badrikanath Praharaj, Sreeram MV</div>
+              <div class="where">Multi-Agent Robotic Systems: Real-World Collaboration &amp; Interaction (MARS-EAI) Workshop, ICRA 2026 · Accepted</div></div>
+            <div class="btns"><a class="btn" href="https://arxiv.org/abs/2606.04746">arXiv</a></div>
+          </div>
+
+          <div class="pub">
+            <span class="badge">ICRA 2026</span>
+            <div><div class="t">MineXplore: An Open-Source RL Exploration Benchmark for GNSS-Denied Underground Environments</div>
+              <div class="au"><span class="me">Abhishek S</span>, Badrikanath Praharaj, Sreeram MV</div>
+              <div class="where">Xplore Workshop (Exploration in Robotics, RL &amp; Search), ICRA 2026 · Accepted</div></div>
+            <div class="btns"><a class="btn" href="https://arxiv.org/abs/2606.04569">arXiv</a></div>
+          </div>
+
+          <div class="pub">
+            <span class="badge">RSS 2026</span>
+            <div><div class="t">Subterra: A Validated Benchmark for GNSS-Denied Tunnel Navigation</div>
+              <div class="au"><span class="me">Abhishek S</span>, Badrikanath Praharaj, Sreeram MV</div>
+              <div class="where">WPCIS Workshop, RSS 2026 · Accepted</div></div>
+            <div class="btns"><a class="btn" href="#">arXiv soon</a></div>
+          </div>
+
+          <p class="pub-note"><span class="k">Where this is going →</span> full versions of <b>MineXplore</b> and <b>Subterra</b> are being extended toward <span class="v">ICRA 2027</span>; <b>CADENCE</b> toward <span class="v">IEEE RA-L</span>; and <b>SENTINEL</b> toward <span class="v">IEEE T-RO</span>.</p>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section class="view" id="projects">
+        <div class="proj-wrap">
+          <div class="proj-list">
+            <div class="label">Projects</div>
+
+            <div class="prow active" data-title="EdgeLIO" data-type="img" data-src="assets/projects/edgelio.jpg">
+              <span class="pnum">01</span>
+              <div class="pinfo">
+                <div class="prow-head"><span class="pn">EdgeLIO</span><span class="ploc">PES University, Bangalore</span></div>
+                <div class="prow-sub"><span class="pmeta">SLAM / Perception</span></div>
+                <span class="pd">Onboard LiDAR–inertial odometry and mapping (FAST-LIO2, Livox MID360, source-built ROS 2 Humble) running entirely on a Jetson Xavier NX — no offboard compute. Real-time state estimation and 3D reconstruction: 10 Hz mapping sustained over a 15-min indoor run at ~22% CPU, 15 ms/scan latency, and 0.13 m ATE RMSE.</span>
+                <div class="plinks"><a href="https://github.com/abhishekss2490/Jetson-xavier-nx-lidar-slam" target="_blank" rel="noopener">GitHub</a></div>
+              </div>
+            </div>
+
+            <div class="prow" data-title="Event-Triggered Lyapunov-Safe Reinforcement Learning" data-type="img" data-src="assets/projects/etc-rl.jpg">
+              <span class="pnum">02</span>
+              <div class="pinfo">
+                <div class="prow-head"><span class="pn">Event-Triggered Lyapunov-Safe Reinforcement Learning</span><span class="ploc">IISc, Bangalore</span></div>
+                <div class="prow-sub"><span class="pmeta">Research Project · Safe RL / Control</span></div>
+                <span class="pd">Cast event-triggered control of a linear system as a constrained MDP; learned safe, state-dependent triggering via Q-learning → DQN → SAC under a Lyapunov certificate with certified-set projection (Zeno-free). Proved the optimal inter-event time has intrinsic jump discontinuities in the trigger parameter β. Advised by <a href="https://pavan-tallapragada.github.io/" target="_blank" rel="noopener">Dr. P. Tallapragada</a>.</span>
+              </div>
+            </div>
+
+            <div class="prow" data-title="SceneForge" data-type="img" data-src="assets/projects/sceneforge.jpg">
+              <span class="pnum">03</span>
+              <div class="pinfo">
+                <div class="prow-head"><span class="pn">SceneForge</span><span class="ploc">PES University, Bangalore</span></div>
+                <div class="prow-sub"><span class="pmeta">Interactive 3D / Digital-Twin Tooling</span></div>
+                <span class="pd">In-browser 3D transform editor (React Three Fiber, Three.js): draggable numeric inputs for position, rotation, and scale in real-time two-way sync with an in-viewport gizmo, with per-axis increment locking and a movable properties panel.</span>
+                <div class="plinks"><a href="https://github.com/abhishekss2490/PropertiesPanel" target="_blank" rel="noopener">GitHub</a><a href="https://properties-panel.vercel.app" target="_blank" rel="noopener">Live demo</a></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="proj-preview">
+            <div class="pv-frame">
+              <div class="pv-cap"><span id="pvName">EdgeLIO</span><span class="x">◱ hover to preview</span></div>
+              <div class="pv-media">
+                <div class="pv-ph"><span class="nm" id="pvPhName">EdgeLIO</span></div>
+                <img id="pvImg" alt="">
+                <video id="pvVid" muted loop playsinline preload="metadata"></video>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section class="view" id="experience">
+        <div class="inner">
+          <div class="label">Experience</div>
+
+          <div class="exp">
+            <div class="exp-head"><span class="exp-org">Indian Institute of Science (IISc)</span><span class="exp-date">Aug 2025 – Present</span></div>
+            <div class="exp-sub"><span class="exp-role">Control &amp; Optimization Intern</span><span class="exp-loc">Bengaluru, India</span></div>
+            <p class="exp-desc">Designed a real-time multi-robot coordinator on a custom quadrant-token abstraction that partitions shared grid cells into sub-cell waypoints, robust to spatio-temporal conflicts and collision-free under quadrant mutual exclusion. Validated across 100+ live OptiTrack experiments (4 robots, scalable to 10), cutting average inter-robot wait to ~0.1 s. Advised by <a href="https://pavan-tallapragada.github.io/" target="_blank" rel="noopener">Prof. Pavankumar Tallapragada</a>.</p>
+            <div class="exp-links"><a class="exp-code" href="https://github.com/abhishekss2490/MAPS" target="_blank" rel="noopener">Code ↗</a></div>
+            <div class="exp-media">
+              <figure class="clip">
+                <div class="clip-frame"><video src="assets/experience/iisc-4robots.mp4" controls muted playsinline preload="metadata"></video></div>
+                <figcaption>4 robots — live OptiTrack run</figcaption>
+              </figure>
+              <figure class="clip">
+                <div class="clip-frame"><video src="assets/experience/iisc-7robots.mp4" controls muted playsinline preload="metadata"></video></div>
+                <figcaption>7 robots — coordinated paths</figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <div class="exp">
+            <div class="exp-head"><span class="exp-org">Stealth Robotics Startup</span><span class="exp-date">Jan 2026 – Present</span></div>
+            <div class="exp-sub"><span class="exp-role">Founder</span><span class="exp-loc">Bangalore, India</span></div>
+            <p class="exp-desc">Building in stealth: an early-stage robotics-research venture tackling the scarcity of real-world robotics data for foundation-model post-training, through curated datasets for niche, hard-to-source domains that established pipelines underserve. More soon.</p>
+          </div>
+
+          <div class="exp">
+            <div class="exp-head"><span class="exp-org">CAIR, DRDO</span><span class="exp-date">Jun – Jul 2025</span></div>
+            <div class="exp-sub"><span class="exp-role">Research Intern</span><span class="exp-loc">Bangalore, India</span></div>
+            <p class="exp-desc">Developed and hardware-validated a guiding-vector-field path-following controller for 4WID/4WIS vehicles, using an arc-length–parameterised C² spline reference with curvature-dependent velocity profiling (v<sub>max</sub> = 0.5 m/s, 20 Hz). Achieved ≈0.05 m RMS cross-track error at 0.34–0.35 m/s, with 0.2–0.23 m/s turn speeds.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- EDUCATION -->
+      <section class="view" id="education">
+        <div class="inner">
+          <div class="label">Education &amp; Skills</div>
+
+          <div class="subhead" style="margin-bottom:.9rem;">Education</div>
+          <div class="edu">
+            <div class="exp-head"><span class="exp-org">PES University</span><span class="exp-date">Dec 2022 – Present</span></div>
+            <div class="exp-sub"><span class="exp-role">B.Tech, Computer Science &amp; Engineering</span><span class="exp-loc">Bangalore, India · GPA 7.7 / 10</span></div>
+          </div>
+          <p class="edu-course"><b>Relevant coursework:</b> Linear Algebra · Probability &amp; Statistics · Machine Learning · Reinforcement Learning · Control Systems · Robotics · Optimization</p>
+
+          <div class="subhead" style="margin:2rem 0 1rem;">Technical Skills</div>
+          <div class="skillgrid">
+            <div class="sgroup"><h4>Languages</h4><div class="tags"><span>Python</span><span>C++</span></div></div>
+            <div class="sgroup"><h4>Machine Learning &amp; RL</h4><div class="tags"><span>PyTorch</span><span>TensorFlow</span><span>Stable-Baselines3</span><span>RLlib (Ray)</span><span>PPO</span><span>SAC</span><span>DQN</span><span>Q-learning</span></div></div>
+            <div class="sgroup"><h4>Robotics &amp; Simulation</h4><div class="tags"><span>ROS 1 Noetic</span><span>ROS 2 Humble</span><span>MuJoCo</span><span>Gazebo</span></div></div>
+            <div class="sgroup"><h4>Perception &amp; SLAM</h4><div class="tags"><span>FAST-LIO2</span><span>LiDAR–inertial odometry</span><span>Open3D</span><span>PCL</span><span>RGB-D</span></div></div>
+            <div class="sgroup"><h4>Control &amp; Optimization</h4><div class="tags"><span>MATLAB/Simulink</span><span>CVXPY</span><span>Eigen</span></div></div>
+            <div class="sgroup"><h4>Scientific Computing</h4><div class="tags"><span>NumPy</span><span>SciPy</span><span>scikit-learn</span><span>statsmodels</span><span>pandas</span><span>Matplotlib</span></div></div>
+            <div class="sgroup"><h4>Hardware</h4><div class="tags"><span>NVIDIA Jetson Xavier NX</span><span>Arduino</span><span>Livox MID360</span><span>OptiTrack (motion capture)</span></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BEYOND -->
+      <section class="view" id="beyond">
+        <div class="inner">
+          <div class="label">Beyond the lab</div>
+          <p class="beyond-intro">The stuff that actually makes me me — <b>what I read, watch, listen to, and play.</b> (Fill these with your real favourites; this is the section people remember.)</p>
+          <div class="grid">
+            <div class="bcard"><div class="k">Reading</div><ul><li><span class="ph">⟨a book you love⟩</span></li><li><span class="ph">⟨currently reading⟩</span></li><li><span class="ph">⟨a field classic⟩</span></li></ul></div>
+            <div class="bcard"><div class="k">Watching</div><ul><li><span class="ph">⟨a film⟩</span></li><li><span class="ph">⟨a series⟩</span></li><li><span class="ph">⟨a director⟩</span></li></ul></div>
+            <div class="bcard"><div class="k">Listening</div><ul><li><span class="ph">⟨an artist⟩</span></li><li><span class="ph">⟨a genre⟩</span></li><li><span class="ph">⟨a song on repeat⟩</span></li></ul></div>
+            <div class="bcard"><div class="k">Playing</div><ul><li><span class="ph">⟨a sport⟩</span></li><li><span class="ph">⟨a team you follow⟩</span></li><li><span class="ph">⟨something else⟩</span></li></ul></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="foot">
+      <span id="stat">Bengaluru, India</span>
+      <span>© 2026 Abhishek S · <a href="mailto:abhishekss6363@gmail.com">abhishekss6363@gmail.com</a></span>
+    </div>
+  </div>
+
+  <script>
+    /* ---- view switching ---- */
+    const views=[...document.querySelectorAll('.view')];
+    const navlinks=[...document.querySelectorAll('.links a[data-go]')];
+    /* tag each section's blocks with their arrival order for the settle cascade */
+    views.forEach(v=>{
+      let wrap=v; while(wrap.children.length===1) wrap=wrap.children[0];
+      const kids=[...wrap.children].flatMap(k=>k.classList.contains('proj-list')?[...k.children]:[k]);
+      kids.forEach((el,i)=>{ el.classList.add('st'); el.style.setProperty('--i', Math.min(i,7)); });
+    });
+    let swapTimer=null;
+    function go(id){
+      const next=document.getElementById(id);
+      const cur=views.find(v=>v.classList.contains('on') && !v.classList.contains('out'));
+      if(!next || cur===next) return;
+      navlinks.forEach(a=>a.setAttribute('data-on', a.dataset.go===id));
+      document.getElementById('stat').textContent = id==='home' ? 'Bengaluru, India' : '▪ '+id;
+      document.getElementById('ghost').classList.toggle('show', id!=='home');
+      clearTimeout(swapTimer);
+      const swap=()=>{ views.forEach(v=>v.classList.remove('on','out')); next.classList.add('on'); next.scrollTop=0; };
+      if(cur){ cur.classList.add('out'); swapTimer=setTimeout(swap,140); } else swap();
+    }
+    document.querySelectorAll('[data-go]').forEach(el=> el.addEventListener('click',()=>go(el.dataset.go)));
+
+    /* ---- projects: hover to preview (image or looping video) ---- */
+    (function(){
+      const rows=[...document.querySelectorAll('.prow')];
+      const pvName=document.getElementById('pvName'), pvPhName=document.getElementById('pvPhName');
+      const pvImg=document.getElementById('pvImg'), pvVid=document.getElementById('pvVid');
+      function show(row){
+        rows.forEach(r=>r.classList.toggle('active', r===row));
+        const d=row.dataset;
+        pvName.textContent=d.title; pvPhName.textContent=d.title;
+        pvImg.style.opacity=0; pvVid.style.opacity=0; try{ pvVid.pause(); }catch(e){}
+        if(d.type==='video'){
+          pvVid.onloadeddata=()=>{ pvVid.style.opacity=1; pvVid.play().catch(()=>{}); };
+          pvVid.onerror=()=>{ pvVid.style.opacity=0; };
+          pvVid.src=d.src; pvVid.load();
+        } else {
+          pvImg.onload=()=>{ pvImg.style.opacity=1; };
+          pvImg.onerror=()=>{ pvImg.style.opacity=0; };
+          pvImg.src=d.src;
+        }
+      }
+      rows.forEach(r=> r.addEventListener('mouseenter', ()=>show(r)));
+      if(rows[0]) show(rows[0]);
+    })();
+
+    /* ---- signature animation: HF0's exact sliced-sphere frames, recoloured saffron, played back ---- */
+    const cv=document.getElementById('swarm'), ctx=cv.getContext('2d');
+    const mk=document.getElementById('mark'), mctx=mk.getContext('2d');
+    const gh=document.getElementById('ghost'), gctx=gh.getContext('2d');
+    let CSS, DPR, MK, GW, GH;
+    const sheet=new Image(); sheet.src='assets/sphere_saffron.png';
+    const FRAMES=27, FW=340, FPS=25;
+    function resize(){
+      DPR=Math.min(2, window.devicePixelRatio||1);
+      CSS=cv.clientWidth; cv.width=CSS*DPR; cv.height=CSS*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+      ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
+      MK=mk.clientWidth||24; mk.width=MK*DPR; mk.height=MK*DPR; mctx.setTransform(DPR,0,0,DPR,0,0);
+      mctx.imageSmoothingEnabled=true; mctx.imageSmoothingQuality='high';
+      const st=gh.parentElement; GW=st.clientWidth; GH=st.clientHeight;
+      gh.width=GW*DPR; gh.height=GH*DPR; gctx.setTransform(DPR,0,0,DPR,0,0);
+      gctx.imageSmoothingEnabled=true; gctx.imageSmoothingQuality='high';
+    }
+    function frame(now){
+      ctx.clearRect(0,0,CSS,CSS); mctx.clearRect(0,0,MK,MK); gctx.clearRect(0,0,GW,GH);
+      if(sheet.complete && sheet.naturalWidth){
+        const sx=(Math.floor(now/(1000/FPS))%FRAMES)*FW;
+        ctx.drawImage(sheet, sx, 0, FW, FW, 0, 0, CSS, CSS);
+        mctx.drawImage(sheet, sx, 0, FW, FW, 0, 0, MK, MK);
+        const S=Math.min(GH*1.3, GW*0.9);
+        gctx.globalAlpha=0.11;
+        gctx.drawImage(sheet, sx, 0, FW, FW, GW*0.5 - S/2, GH*0.5 - S/2, S, S);
+        gctx.globalAlpha=1;
+      }
+      requestAnimationFrame(frame);
+    }
+    resize(); requestAnimationFrame(frame);
+    window.addEventListener('resize', resize);
+  </script>
+</body>
+</html>
