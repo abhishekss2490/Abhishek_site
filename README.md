@@ -18,7 +18,7 @@ spinning-sphere logo, and a faint ghost sphere behind the inner tabs.
 ## Status — what's real vs. pending
 Real content is in: Publications (4 first-authored ICRA/RSS 2026 workshop papers), Projects
 (EdgeLIO, Event-Triggered Lyapunov-Safe RL, SceneForge), Experience (IISc + OptiTrack clips,
-Stealth startup, DRDO), Education & Skills.
+Stealth startup), Education & Skills.
 
 **Next steps (handoff):**
 1. Write the **hero description** (still placeholder) and fill **Beyond** (books/films/music/sport).
