@@ -1,0 +1,17 @@
+{
+  "ExcludedDirectories": [
+    ".git",
+    ".venv",
+    "venv",
+    "node_modules",
+    "__pycache__",
+    ".netlify",
+    ".aws",
+    ".ssh",
+    ".service-backup",
+    ".claude"
+  ],
+  "Date": "2026-10-21",
+  "Note": "Credentials excluded by filename and common key signatures checked in text files. Git history is available from original remotes; this archive preserves working files.",
+  "Source": "C:\\Users\\Lenovo\\Documents\\PORTFOLIO"
+}
