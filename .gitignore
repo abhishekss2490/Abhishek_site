@@ -6,3 +6,6 @@
 !/research-section.md
 !/assets/
 !/design-previews/
+
+# Local Netlify folder
+.netlify
